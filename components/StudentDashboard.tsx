@@ -64,9 +64,9 @@ const StudentDashboard: React.FC = () => {
       ) : error ? (
         <p>Error: {error.message}</p>
       ) : (
-    <div>
+        <div>
           <p>{conversation}</p>
-    </div>
+        </div>
       )}
 3FD2-73C9
 3FD2-73C9
