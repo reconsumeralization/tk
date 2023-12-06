@@ -1,8 +1,9 @@
 import unittest
+
+import routes
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from models import db, User, Course, UserCourse, Assignment, Test, Chat
-import routes
+from models import Assignment, Chat, Course, Test, User, UserCourse, db
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
@@ -29,6 +30,35 @@ class TestBackend(unittest.TestCase):
         self.assertEqual(user.role, 'student')
 
     def test_get_users(self):
+    def test_register(self):
+        response = self.app.post('/register', json={
+            'username': 'testuser',
+            'password': 'testpassword',
+            'role': 'student'
+        })
+        self.assertEqual(response.status_code, 201)
+        user = User.query.filter_by(username='testuser').first()
+        self.assertIsNotNone(user)
+        self.assertEqual(user.username, 'testuser')
+        self.assertEqual(user.role, 'student')
+
+    def test_login(self):
+        response = self.app.post('/login', json={
+            'username': 'testuser',
+            'password': 'testpassword'
+        })
+        self.assertEqual(response.status_code, 200)
+        data = response.get_json()
+        self.assertIsNotNone(data['access_token'])
+
+    def test_profile(self):
+        response = self.app.get('/profile', headers={
+            'Authorization': 'Bearer ' + self.access_token
+        })
+        self.assertEqual(response.status_code, 200)
+        data = response.get_json()
+        self.assertEqual(data['username'], 'testuser')
+        self.assertEqual(data['role'], 'student')
         response = self.app.get('/users')
         self.assertEqual(response.status_code, 200)
         data = response.get_json()
@@ -46,6 +76,33 @@ class TestBackend(unittest.TestCase):
         self.assertEqual(course.teacher_id, 1)
 
     def test_get_courses(self):
+    def test_change_password(self):
+        response = self.app.post('/change_password', json={
+            'old_password': 'testpassword',
+            'new_password': 'newpassword'
+        }, headers={
+            'Authorization': 'Bearer ' + self.access_token
+        })
+        self.assertEqual(response.status_code, 200)
+        user = User.query.filter_by(username='testuser').first()
+        self.assertIsNotNone(user)
+        self.assertNotEqual(user.password, 'testpassword')
+
+    def test_encrypt_data(self):
+        response = self.app.post('/encrypt_data', json={
+            'data': 'testdata'
+        }, headers={
+            'Authorization': 'Bearer ' + self.access_token
+        })
+        self.assertEqual(response.status_code, 200)
+
+    def test_decrypt_data(self):
+        response = self.app.post('/decrypt_data', json={
+            'data': 'testdata'
+        }, headers={
+            'Authorization': 'Bearer ' + self.access_token
+        })
+        self.assertEqual(response.status_code, 200)
         response = self.app.get('/courses')
         self.assertEqual(response.status_code, 200)
         data = response.get_json()
@@ -70,3 +127,20 @@ class TestBackend(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+    def test_user_model(self):
+        user = User(username='testuser', password='testpassword', role='student')
+        self.db.session.add(user)
+        self.db.session.commit()
+        user = User.query.filter_by(username='testuser').first()
+        self.assertIsNotNone(user)
+        self.assertEqual(user.username, 'testuser')
+        self.assertEqual(user.role, 'student')
+
+    def test_course_model(self):
+        course = Course(name='testcourse', teacher_id=1)
+        self.db.session.add(course)
+        self.db.session.commit()
+        course = Course.query.filter_by(name='testcourse').first()
+        self.assertIsNotNone(course)
+        self.assertEqual(course.name, 'testcourse')
+        self.assertEqual(course.teacher_id, 1)
