@@ -8,3 +8,13 @@ export const CREATE_TEST = 'CREATE_TEST';
 export const GET_TESTS = 'GET_TESTS';
 export const CREATE_CHAT = 'CREATE_CHAT';
 export const GET_CHATS = 'GET_CHATS';
+
+export interface UserType {
+  // Define user properties here
+}
+
+export interface CourseType {
+  // Define course properties here
+}
+
+// Similarly define interfaces for Assignment, Test, and Chat
