@@ -12,7 +12,7 @@ class AssessmentFeedbackAI:
 
     def get_assessment_feedback(self, student_answers: List[str]) -> List[dict]:
         try:
-            return self.assessment_feedback_ai(student_answers)
+            return self.asseitssment_feedback_ai(student_answers)
         except Exception as e:
             print(f"An error occurred: {e}")
             return []
