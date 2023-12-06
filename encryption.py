@@ -1,4 +1,3 @@
-```python
 from flask import Blueprint, request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import db, User
@@ -35,4 +34,3 @@ def decrypt_data():
     data = request.get_json()
     decrypted_data = {}  # Placeholder for the actual decryption logic
     return jsonify(decrypted_data), 200
-```

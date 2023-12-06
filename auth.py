@@ -1,4 +1,3 @@
-```python
 from flask import Blueprint, request, jsonify
 from models import db, User
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -31,4 +30,3 @@ def profile():
     current_user = get_jwt_identity()
     user = User.query.filter_by(username=current_user).first()
     return jsonify(username=user.username, role=user.role), 200
-```

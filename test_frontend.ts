@@ -12,7 +12,7 @@ import * as actions from './actions';
 jest.mock('axios');
 
 describe('Frontend Integration Tests', () => {
-  test('renders login page', () => {
+  const renderApp = () =>
     render(
       <Provider store={store}>
         <Router>
@@ -20,25 +20,23 @@ describe('Frontend Integration Tests', () => {
         </Router>
       </Provider>
     );
+
+  test('renders the login page', () => {
+    renderApp();
     expect(screen.getByText(/login/i)).toBeInTheDocument();
   });
 
-  test('navigates to teacher dashboard', async () => {
+  test('navigates to the teacher dashboard', async () => {
+    // Update mockResolvedValueOnce to use Promise.resolve
     actions.createUser = jest.fn().mockResolvedValueOnce({
       data: {
         username: 'teacher1',
         password: 'password',
-        role: 'teacher'
-      }
+        role: 'teacher',
+      },
     });
 
-    render(
-      <Provider store={store}>
-        <Router>
-          <App />
-        </Router>
-      </Provider>
-    );
+    renderApp();
 
     fireEvent.change(screen.getByLabelText(/username/i), {
       target: { value: 'teacher1' },
@@ -54,4 +52,29 @@ describe('Frontend Integration Tests', () => {
   });
 
   // Add more tests for other user roles and functionalities
+
+  // Example test for another user role
+  test('navigates to the student dashboard', async () => {
+    actions.createUser = jest.fn().mockResolvedValueOnce({
+      data: {
+        username: 'student1',
+        password: 'password',
+        role: 'student',
+      },
+    });
+
+    renderApp();
+
+    fireEvent.change(screen.getByLabelText(/username/i), {
+      target: { value: 'student1' },
+    });
+    fireEvent.change(screen.getByLabelText(/password/i), {
+      target: { value: 'password' },
+    });
+    fireEvent.click(screen.getByText(/login/i));
+
+    await waitFor(() => screen.getByText(/student dashboard/i));
+
+    expect(screen.getByText(/student dashboard/i)).toBeInTheDocument();
+  });
 });

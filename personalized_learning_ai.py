@@ -1,4 +1,3 @@
-```python
 from transformers import pipeline
 
 class PersonalizedLearningAI:
@@ -15,4 +14,3 @@ def init():
 
 def get_learning_recommendation(student_performance):
     return personalized_learning_ai.get_learning_recommendation(student_performance)
-```

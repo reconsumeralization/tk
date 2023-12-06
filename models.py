@@ -1,4 +1,3 @@
-```python
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship
 
@@ -52,4 +51,3 @@ class Chat(db.Model):
     sender_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     receiver_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     message = db.Column(db.Text, nullable=False)
-```

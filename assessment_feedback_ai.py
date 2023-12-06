@@ -1,4 +1,3 @@
-```python
 from transformers import pipeline
 
 class AssessmentFeedbackAI:
@@ -15,4 +14,3 @@ def init():
 
 def get_assessment_feedback(student_answers):
     return assessment_feedback_ai.get_assessment_feedback(student_answers)
-```

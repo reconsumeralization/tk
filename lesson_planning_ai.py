@@ -1,4 +1,3 @@
-```python
 from transformers import pipeline
 
 class LessonPlanningAI:
@@ -15,4 +14,3 @@ def init():
 
 def generate_lesson_plan(topic):
     return lesson_planning_ai.generate_lesson_plan(topic)
-```

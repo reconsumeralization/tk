@@ -1,69 +1,23 @@
 import React from 'react';
-
-const TeacherDashboard: React.FC = () => {
-  return (
-    <div>
-      {/* Your component code here */}
-    </div>
-  );
-}
-
-export default TeacherDashboard;
-
-import React from 'react';
-
-const StudentDashboard: React.FC = () => {
-  return (
-    <div>
-      {/* Your component code here */}
-    </div>
-  );
-}
-
-export default StudentDashboard;
-
-import React from 'react';
-
-const ParentDashboard: React.FC = () => {
-  return (
-    <div>
-      {/* Your component code here */}
-    </div>
-  );
-}
-
-export default ParentDashboard;
-
-import React from 'react';
-
-const AdminDashboard: React.FC = () => {
-  return (
-    <div>
-      {/* Your component code here */}
-    </div>
-  );
-}
-
-export default AdminDashboard;
-
-import React from 'react';
-
-const Login: React.FC = () => {
-  return (
-    <div>
-      {/* Your component code here */}
-    </div>
-  );
-}
-
-export default Login;
-
-import React from 'react';
+import { Link } from 'react-router-dom';
+import './NotFound.css'; // Import your CSS file for styling
 
 const NotFound: React.FC = () => {
   return (
-    <div>
-      {/* Your component code here */}
+    <div className="not-found-container">
+      <div className="not-found-content">
+        <h2 className="not-found-title">404 - Not Found</h2>
+        <p className="not-found-message">
+          Oops! It seems like the page you are looking for does not exist.
+        </p>
+        <p className="not-found-suggestion">
+          You can go back to the{' '}
+          <Link to="/" className="not-found-link">
+            home page
+          </Link>
+          .
+        </p>
+      </div>
     </div>
   );
 }

@@ -1,12 +1,27 @@
-import { createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
+import rootReducer, { RootState } from './reducers';
 
-import rootReducer from './reducers';
+// Define your state types here
+type UserType = {
+  // Define user properties here
+};
 
-const store = createStore(
-  rootReducer,
-  composeWithDevTools(applyMiddleware(thunk))
-);
+type CourseType = {
+  // Define course properties here
+};
+
+type YourStateType = RootState & {
+  user: UserType,
+  courses: CourseType[],
+  // other state properties...
+};
+
+const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware<YourStateType>(),
+});
+
+export type AppDispatch = typeof store.dispatch;
+export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, YourStateType, unknown, Action<string>>;
 
 export default store;

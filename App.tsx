@@ -1,9 +1,9 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import TeacherDashboard from './components/TeacherDashboard';
 import StudentDashboard from './components/StudentDashboard';
-import ParentDashboard from './components/ParentDashboard';
+import ParentDashboard from './components/ParentsDashboard';
 import AdminDashboard from './components/AdminDashboard';
 import Login from './components/Login';
 import NotFound from './components/NotFound';
@@ -11,14 +11,16 @@ import NotFound from './components/NotFound';
 const App: React.FC = () => {
   return (
     <div className="App">
-      <Switch>
-        <Route exact path="/" component={Login} />
-        <Route path="/teacher" component={TeacherDashboard} />
-        <Route path="/student" component={StudentDashboard} />
-        <Route path="/parent" component={ParentDashboard} />
-        <Route path="/admin" component={AdminDashboard} />
-        <Route component={NotFound} />
-      </Switch>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/teacher" element={<TeacherDashboard />} />
+          <Route path="/student" element={<StudentDashboard />} />
+          <Route path="/parent" element={<ParentDashboard />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Router>
     </div>
   );
 }

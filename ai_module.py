@@ -1,4 +1,4 @@
-```python
+from flask import Flask, request
 from transformers import pipeline
 
 class AIModule:
@@ -29,4 +29,23 @@ def get_learning_recommendation(student_performance):
 
 def get_assessment_feedback(student_answers):
     return ai_module.get_assessment_feedback(student_answers)
-```
+
+app = Flask(__name__)
+
+@app.route('/generate_lesson_plan', methods=['POST'])
+def generate():
+    data = request.get_json()
+    return generate_lesson_plan(data['topic'])
+
+@app.route('/get_learning_recommendation', methods=['POST'])
+def recommend():
+    data = request.get_json()
+    return get_learning_recommendation(data['performance'])
+
+@app.route('/get_assessment_feedback', methods=['POST'])
+def feedback():
+    data = request.get_json()
+    return get_assessment_feedback(data['answers'])
+
+if __name__ == '__main__':
+    app.run(debug=True)

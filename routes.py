@@ -1,4 +1,3 @@
-```python
 from flask import Blueprint, request, jsonify
 from models import db, User, Course, UserCourse, Assignment, Test, Chat
 from flask_jwt_extended import jwt_required, get_jwt_identity
@@ -78,4 +77,3 @@ def create_chat():
 def get_chats():
     chats = Chat.query.all()
     return jsonify([chat.serialize for chat in chats]), 200
-```

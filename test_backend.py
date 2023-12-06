@@ -1,4 +1,3 @@
-```python
 import unittest
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -71,4 +70,3 @@ class TestBackend(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-```

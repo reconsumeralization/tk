@@ -1,42 +1,40 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import createSagaMiddleware from 'redux-saga';
+import { createStore, applyMiddleware, Store, CombinedState } from 'redux'; // Added CombinedState import
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, Store } from 'redux';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import thunk from 'redux-thunk';
+import createRootReducer from './reducers';
+import rootSaga from './sagas';
 import App from './App';
-import reducers from './reducers';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { render } from 'react-dom';
+import { StrictMode } from 'react';
+import React from 'react';
 
-// Specify the root state type based on your reducers
-type RootState = ReturnType<typeof reducers>;
+// Ensure that your root reducer has a default export for RootState
+const rootReducer = createRootReducer(initialState, configuration); // Replace initialState and configuration with actual values
 
-// Create the Redux store with middleware (thunk) and DevTools
-const store: Store<RootState> = createStore(
-  reducers, 
-  applyMiddleware(thunk)
+const sagaMiddleware = createSagaMiddleware();
+
+const store: Store<CombinedState<RootState>> = createStore(
+  rootReducer,
+  composeWithDevTools(applyMiddleware(sagaMiddleware), initialState, configuration)
 );
+sagaMiddleware.run(rootSaga);
 
-// Render the React application
-ReactDOM.render(
-  <React.StrictMode>
-    {/* 
-      Provide the Redux store to the entire application 
-      This ensures that all components can access the global state.
-    */}
+const RootComponent = () => (
+  <StrictMode>
     <Provider store={store}>
-      {/* 
-        Set up React Router 
-        This allows for navigation within the React application.
-      */}
       <Router>
-        {/* 
-          Main application component 
-          The root component that contains the entire application logic.
-        */}
         <App />
       </Router>
     </Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </StrictMode>
 );
+
+// Use a separate function for rendering to improve code readability
+const renderApp = () => {
+  render(<RootComponent />, document.getElementById('root'));
+};
+
+// Call the render function
+renderApp();
