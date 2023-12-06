@@ -2,13 +2,13 @@
 import React, { useState, useEffect } from 'react';
 import ErrorComponent from './ErrorComponent';
 
-const CourseManagement = () => {
+const ErrorComponent = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('https://api.example.com/CourseManagement')
+    fetch('https://api.example.com/ErrorComponent')
       .then(response => {
         if (response.ok) {
           return response.json();
@@ -31,7 +31,7 @@ const CourseManagement = () => {
 
   return (
     <div>
-      <h1>CourseManagement</h1>
+      <h1>ErrorComponent</h1>
       {data.map(item => (
         <div key={item.id}>
           <h2>{item.title}</h2>
@@ -42,4 +42,4 @@ const CourseManagement = () => {
   );
 }
 
-export default CourseManagement;
+export default ErrorComponent;
