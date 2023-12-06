@@ -1,12 +1,39 @@
-import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import rootReducer, { RootState } from './reducers';
+import React, { StrictMode } from 'react';
+import { render } from 'react-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware, Action, Middleware } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import createSagaMiddleware, { SagaMiddleware } from 'redux-saga';
 
-const store = configureStore({
-  reducer: rootReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware<RootState>(),
-});
+import App from './App';
+import rootReducer from './reducers'; // Import the root reducer
 
-export type AppDispatch = typeof store.dispatch;
-export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action<string>>;
+const sagaMiddleware: SagaMiddleware<object> = createSagaMiddleware();
 
-export default store;
+const configureStore = (initialState: RootState, configuration: any) => {
+  const store = createStore(
+    rootReducer, // Use the root reducer here
+    initialState,
+    composeWithDevTools(applyMiddleware(sagaMiddleware as Middleware))
+  );
+  sagaMiddleware.run(rootSaga);
+  return store;
+};
+
+const RootComponent = ({ store }: { store: any }) => (
+  <StrictMode>
+    <Provider store={store}>
+      <Router>
+        <App />
+      </Router>
+      </Provider>
+  </StrictMode>
+);
+
+const renderApp = () => {
+  const store = configureStore(initialState, configuration);
+  render(<RootComponent store={store} />, document.getElementById('root'));
+};
+
+renderApp();

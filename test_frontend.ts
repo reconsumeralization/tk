@@ -19,13 +19,13 @@ const setup = async (user) => {
   });
 
   render(
-    <Provider store={store}>
-      <Router>
-        <App />
-      </Router>
-    </Provider>
-  );
-
+    render(
+      <Provider store={store}>
+        <Router>
+          <App />
+        </Router>
+      </Provider>
+    );
   fireEvent.change(screen.getByLabelText(/username/i), {
     target: { value: user.username },
   });
