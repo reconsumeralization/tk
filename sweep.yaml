@@ -1,0 +1,32 @@
+# This is a configuration file for Sweep AI, a GitHub app that helps you fix small bugs and implement small features by generating code and opening pull requests based on your GitHub issues.
+# For more information, visit https://github.com/sweepai/sweep
+# To customize the settings for Sweep AI, edit the following options:
+
+# The language of your project
+language: typescript
+
+# The formatter to use for your code
+formatter: prettier
+
+# The linter to use for your code
+linter: eslint
+
+# The test framework to use for your code
+test_framework: jest
+
+# The rules to apply for your code
+rules:
+  # Add type annotations to your variables and functions
+  add_type_annotations: true
+  # Use arrow functions instead of regular functions
+  use_arrow_functions: true
+  # Use functional components instead of class components
+  use_functional_components: true
+  # Use hooks instead of lifecycle methods
+  use_hooks: true
+  # Use conditional rendering instead of ternary operators or if-else statements
+  use_conditional_rendering: true
+  # Use fragments instead of extra divs
+  use_fragments: true
+  # Use styled components instead of inline styles or global CSS
+  use_styled_components: true
