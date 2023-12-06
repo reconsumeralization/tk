@@ -64,6 +64,34 @@ test('navigates to the teacher dashboard', async () => {
 });
 
 test('navigates to the student dashboard', async () => {
+test('navigates to the admin dashboard', async () => {
+  actions.createUser = jest.fn().mockResolvedValueOnce({
+    data: {
+      username: 'admin1',
+      password: 'password',
+      role: 'admin',
+    },
+  });
+
+  await setup({ username: 'admin1', password: 'password', role: 'admin' });
+
+  expect(screen.getByText(/admin dashboard/i)).toBeInTheDocument();
+  // Add more assertions here
+});
+
+test('displays an error message for unsuccessful registration', async () => {
+  actions.createUser = jest.fn().mockRejectedValueOnce({
+    response: {
+      data: {
+        message: 'Username already exists',
+      },
+    },
+  });
+
+  await setup({ username: 'existinguser', password: 'password' });
+
+  expect(screen.getByText(/username already exists/i)).toBeInTheDocument();
+});
   actions.createUser = jest.fn().mockResolvedValueOnce({
     data: {
       username: 'student1',
@@ -90,4 +118,41 @@ test('displays an error message for unsuccessful login', async () => {
   await setup({ username: 'wronguser', password: 'wrongpass' });
 
   expect(screen.getByText(/invalid username or password/i)).toBeInTheDocument();
+});
+test('displays an error message for unsuccessful course creation', async () => {
+  actions.createCourse = jest.fn().mockRejectedValueOnce({
+    response: {
+      data: {
+        message: 'Course already exists',
+      },
+    },
+  });
+
+  await setup({ username: 'teacher1', password: 'password', role: 'teacher' });
+
+  fireEvent.change(screen.getByLabelText(/course name/i), {
+    target: { value: 'existingcourse' },
+  });
+  fireEvent.click(screen.getByText(/create course/i));
+
+  expect(screen.getByText(/course already exists/i)).toBeInTheDocument();
+});
+
+test('displays an error message for unsuccessful assignment creation', async () => {
+  actions.createAssignment = jest.fn().mockRejectedValueOnce({
+    response: {
+      data: {
+        message: 'Assignment already exists',
+      },
+    },
+  });
+
+  await setup({ username: 'teacher1', password: 'password', role: 'teacher' });
+
+  fireEvent.change(screen.getByLabelText(/assignment name/i), {
+    target: { value: 'existingassignment' },
+  });
+  fireEvent.click(screen.getByText(/create assignment/i));
+
+  expect(screen.getByText(/assignment already exists/i)).toBeInTheDocument();
 });
