@@ -40,7 +40,6 @@ const GradesChart = ({ grades }) => {
       },
     ],
   };
-
   return <Bar data={data} />;
 };
 
@@ -54,8 +53,7 @@ const StudentDashboard: React.FC = () => {
     Art: 92,
   };
 
-  const { response: conversation, error, isLoading } = useFetch('/conversation', { conversation: "Tell me about the test results." });
-
+  const { response: conversation, error, isLoading }: { response: any, error: any, isLoading: boolean } = useFetch('/conversation', { conversation: "Tell me about the test results." });
   return (
     <div>
       <h1>Student Dashboard</h1>
