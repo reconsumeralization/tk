@@ -1,13 +1,21 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-<<<<<<< HEAD
 import { Spinner } from 'react-bootstrap';
 import ErrorComponent from './ErrorComponent';
 import { useChat } from 'ai/react';
 import DashboardComponents from './DashboardComponents';
 import SearchBar from './SearchBar';
 import _debounce from 'lodash/debounce';
+import ReactGA from 'react-ga'; // For Analytics Integration
+import { useAuth } from './auth'; // For User Authentication (Assuming you have an auth hook)
 
+/**
+ * Custom hook for fetching data.
+ *
+ * @param {string} url - The API endpoint URL.
+ * @param {object} data - The data to be sent with the request.
+ * @returns {object} - The response, error, and loading status.
+ */
 const useFetch = (url, data) => {
   const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
@@ -27,37 +35,6 @@ const useFetch = (url, data) => {
       setIsLoading(false);
     }
     return () => source.cancel();
-=======
-import { Spinner } from 'react-bootstrap'; // for loading spinner
-import ErrorComponent from './ErrorComponent'; // for better error display
-import { useChat } from 'ai/react'; // from Vercel AI SDK
-import StudentManagement from './StudentManagement'; // for managing students
-import CourseManagement from './CourseManagement'; // for managing courses
-import AssignmentManagement from './AssignmentManagement'; // for managing assignments
-import AttendanceTracking from './AttendanceTracking'; // for tracking attendance
-import PerformanceTracking from './PerformanceTracking'; // for tracking performance
-import CommunicationTools from './CommunicationTools'; // for communication
-import ResourceLibrary from './ResourceLibrary'; // for resources
-import Calendar from './Calendar'; // for calendar and scheduling
-import Notifications from './Notifications'; // for notifications
-
-// Custom hook for fetching data
-const useFetch = <T, U>(url: T, data: U) => {
-  const [response, setResponse] = useState<U | null>(null);
-  const [error, setError] = useState<Error | null>(null);
-
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  const fetchData = useCallback<() => Promise<void>>(async () => {
-    setIsLoading(true);
-    try {
-      const res = await axios.post(url, data);
-      setResponse(res.data);
-    } catch (error) {
-      setError(error);
-    }
-    setIsLoading(false);
->>>>>>> 8478cd0c6baded29a057b2e5cabb6540d1cb0952
   }, [url, data]);
 
   useEffect(() => {
@@ -68,32 +45,85 @@ const useFetch = <T, U>(url: T, data: U) => {
 };
 
 const TeacherDashboard: React.FC = () => {
-<<<<<<< HEAD
   const [searchTerm, setSearchTerm] = useState('');
-  const debouncedSearchTerm = useDebounce(searchTerm, 500);
-  const { response: feedback, error, isLoading } = useFetch('/feedback', {
-    student_answers: ["I love this class!", "This is too difficult."],
-  });
-  const { messages, input, handleInputChange, handleSubmit } = useChat();
+  const [sortOption, setSortOption] = useState('timestamp');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+  const [feedbackHistory, setFeedbackHistory] = useState([]);
+  const [darkMode, setDarkMode] = useState(false);
+  const [selectedFile, setSelectedFile] = useState();
 
+  // Debounce search term to avoid excessive API calls.
+  const debouncedTerm = useDebounce(searchTerm, 500);
+
+  // Handle search term change.
   const handleSearchChange = useCallback((event) => {
     setSearchTerm(event.target.value);
   }, []);
-=======
-const TeacherDashboard: React.FC<Props> = () => {
-  const { response: feedback, error, isLoading } = useFetch('/feedback', { student_answers: ["I love this class!", "This is too difficult."] });
-  const { messages, input, handleInputChange, handleSubmit } = useChat(); // from Vercel AI SDK
->>>>>>> 8478cd0c6baded29a057b2e5cabb6540d1cb0952
+
+  // Handle sort option change.
+  const handleSortChange = (event) => {
+    setSortOption(event.target.value);
+  };
+
+  // Handle page change in pagination.
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
+  // Toggle dark mode and persist in local storage.
+  const toggleDarkMode = () => {
+    const newMode = !darkMode;
+    setDarkMode(newMode);
+    localStorage.setItem('darkMode', newMode);
+  };
+
+  // Handle file selection change.
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
+  // Handle file upload.
+  const handleFileUpload = async () => {
+    const formData = new FormData();
+    formData.append('file', selectedFile);
+    try {
+      const response = await axios.post('/upload', formData);
+      console.log(`Uploaded file ${response.data.file}`);
+    } catch (error) {
+      console.error('Error uploading file:', error);
+    }
+  };
+
+  // Fetch feedback data using the custom hook.
+  const { response: feedback, error, isLoading } = useFetch('/feedback', {
+    student_answers: ["I love this class!", "This is too difficult."],
+  });
+
+  // Handle chat messages using the useChat hook.
+  const { messages, input, handleInputChange, handleSubmit } = useChat();
+
+  // Update feedback history when new feedback is received.
+  useEffect(() => {
+    if (feedback && feedback.length > 0) {
+      setFeedbackHistory((prevHistory) => [...prevHistory, ...feedback]);
+    }
+  }, [feedback]);
+
+  // Initialize Google Analytics on component mount.
+  useEffect(() => {
+    ReactGA.initialize('Your Google Analytics Tracking ID');
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  }, []);
+
+  // Handle user authentication using the auth hook.
+  const { user, login, logout } = useAuth();
 
   return (
     <div>
       <h1>Teacher Dashboard</h1>
-<<<<<<< HEAD
       <DashboardComponents.Notifications />
       <SearchBar handleSearchChange={handleSearchChange} />
-=======
-      <Notifications /> {/* for notifications */}
->>>>>>> 8478cd0c6baded29a057b2e5cabb6540d1cb0952
       {isLoading ? (
         <Spinner animation="border" role="status">
           <span className="sr-only">Loading...</span>
@@ -102,43 +132,29 @@ const TeacherDashboard: React.FC<Props> = () => {
         <ErrorComponent error={error} />
       ) : (
         <div>
-<<<<<<< HEAD
           {DashboardComponents.components.map((Component, index) => (
-            <Component key={index} searchTerm={debouncedSearchTerm} />
+            <Component key={index} searchTerm={debouncedTerm} />
           ))}
           {feedback.map((item, index) => (
             <p key={index}>{item}</p>
           ))}
           {messages.map((m) => (
-=======
-          <StudentManagement /> {/* for managing students */}
-          <CourseManagement /> {/* for managing courses */}
-          <AssignmentManagement /> {/* for managing assignments */}
-          <AttendanceTracking /> {/* for tracking attendance */}
-          <PerformanceTracking /> {/* for tracking performance */}
-          <CommunicationTools /> {/* for communication */}
-          <ResourceLibrary /> {/* for resources */}
-          <Calendar /> {/* for calendar and scheduling */}
-          {feedback.map((item, index) => (
-            <p key={index}>{item}</p>
-          ))}
-          {messages.map(m => ( // from Vercel AI SDK
->>>>>>> 8478cd0c6baded29a057b2e5cabb6540d1cb0952
             <div key={m.id}>
               {m.role}: {m.content}
             </div>
           ))}
-<<<<<<< HEAD
           <DashboardComponents.Form
             input={input}
             handleInputChange={handleInputChange}
             handleSubmit={handleSubmit}
           />
-=======
-          <form onSubmit={handleSubmit}> {/* from Vercel AI SDK */}
-            <input value={input} placeholder="Say something..." onChange={handleInputChange} /> {/* from Vercel AI SDK */}
-          </form>
->>>>>>> 8478cd0c6baded29a057b2e5cabb6540d1cb0952
+          <input type="file" onChange={handleFileChange} />
+          <button onClick={handleFileUpload}>Upload File</button>
+          {!user ? (
+            <button onClick={login}>Login</button>
+          ) : (
+            <button onClick={logout}>Logout</button>
+          )}
         </div>
       )}
     </div>
