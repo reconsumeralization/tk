@@ -1,5 +1,10 @@
 {
+<<<<<<< HEAD
     "DockerRun.DisableDockerrc": true,
     "python.analysis.autoImportCompletions": true,
     "python.analysis.typeCheckingMode": "basic"
+=======
+    "python.analysis.typeCheckingMode": "basic",
+    "DockerRun.DisableDockerrc": true
+>>>>>>> 8478cd0c6baded29a057b2e5cabb6540d1cb0952
 }

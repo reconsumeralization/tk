@@ -1,71 +1,50 @@
-import React from 'react';
-
-const TeacherDashboard: React.FC = () => {
-  return (
-    <div>
-      {/* Your component code here */}
-    </div>
-  );
-}
-
-export default TeacherDashboard;
-
-import React from 'react';
-
-const StudentDashboard: React.FC = () => {
-  return (
-    <div>
-      {/* Your component code here */}
-    </div>
-  );
-}
-
-export default StudentDashboard;
-
-import React from 'react';
-
-const ParentDashboard: React.FC = () => {
-  return (
-    <div>
-      {/* Your component code here */}
-    </div>
-  );
-}
-
-export default ParentDashboard;
-
-import React from 'react';
-
-const AdminDashboard: React.FC = () => {
-  return (
-    <div>
-      {/* Your component code here */}
-    </div>
-  );
-}
-
-export default AdminDashboard;
-
-import React from 'react';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
+import './Login.css'; // Import your CSS file for styling
 
 const Login: React.FC = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleUsernameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setUsername(e.target.value);
+  };
+
+  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  };
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // Add your login logic here
+    console.log(`Logging in with username: ${username} and password: ${password}`);
+  };
+
   return (
-    <div>
-      {/* Your component code here */}
+    <div className="login-container">
+      <form className="login-form" onSubmit={handleSubmit}>
+        <h2>Login</h2>
+        <label htmlFor="username">Username:</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          value={username}
+          onChange={handleUsernameChange}
+          required
+        />
+        <label htmlFor="password">Password:</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          value={password}
+          onChange={handlePasswordChange}
+          required
+        />
+        <button type="submit">Login</button>
+      </form>
     </div>
   );
-}
+};
 
 export default Login;
-
-import React from 'react';
-
-const NotFound: React.FC = () => {
-  return (
-    <div>
-      {/* Your component code here */}
-    </div>
-  );
-}
-
-export default NotFound;

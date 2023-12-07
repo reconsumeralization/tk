@@ -8,6 +8,7 @@ const useFetch = (url, data) => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
+<<<<<<< HEAD
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
@@ -70,3 +71,22 @@ const StudentDashboard: React.FC = () => {
       )}
 3FD2-73C9
 3FD2-73C9
+=======
+  const fetchData = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const res = await axios.post(url, data);
+      setResponse(res.data);
+    } catch (error) {
+      setError(error);
+    }
+    setIsLoading(false);
+  }, [url, data]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  return { response, error, isLoading };
+};
+>>>>>>> 8478cd0c6baded29a057b2e5cabb6540d1cb0952

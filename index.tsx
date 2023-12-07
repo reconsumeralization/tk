@@ -1,42 +1,70 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, Store } from 'redux';
+// Define your root state
+interface RootState {
+  users: any[];
+  courses: any[];
+  assignments: any[];
+  tests: any[];
+  chats: any[];
+}
+
+// Define your initial state
+const initialState: RootState = {
+  users: [],
+  courses: [],
+  assignments: [],
+  tests: [],
+  chats: []
+}
+
+// Define your configuration
+const configuration = {
+  // Define your configuration properties here
+};
+
+// Define your sagas
+function* rootSaga() {
+  // Define your sagas here
+}
+
+// Now, let's adjust your existing code
+import React, { StrictMode } from 'react';
+import { render } from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware, Action, Middleware, Reducer } from 'redux'; // Added Reducer import
 import { composeWithDevTools } from 'redux-devtools-extension';
-import thunk from 'redux-thunk';
+import createSagaMiddleware, { SagaMiddleware } from 'redux-saga';
+
 import App from './App';
-import reducers from './reducers';
+import createRootReducer from './reducers';
 
-// Specify the root state type based on your reducers
-type RootState = ReturnType<typeof reducers>;
+const rootReducer: Reducer<RootState, Action<string>> = createRootReducer(); // Added type for rootReducer
 
-// Create the Redux store with middleware (thunk) and DevTools
-const store: Store<RootState> = createStore(
-  reducers, 
-  applyMiddleware(thunk)
-);
+const sagaMiddleware: SagaMiddleware<object> = createSagaMiddleware();
 
-// Render the React application
-ReactDOM.render(
-  <React.StrictMode>
-    {/* 
-      Provide the Redux store to the entire application 
-      This ensures that all components can access the global state.
-    */}
+const configureStore = (initialState: RootState, configuration: any) => {
+  const store = createStore(
+    rootReducer,
+    initialState,
+    composeWithDevTools(applyMiddleware(sagaMiddleware as Middleware))
+  );
+  sagaMiddleware.run(rootSaga);
+  return store;
+};
+
+const RootComponent = ({ store }: { store: any }) => (
+  <StrictMode>
     <Provider store={store}>
-      {/* 
-        Set up React Router 
-        This allows for navigation within the React application.
-      */}
       <Router>
-        {/* 
-          Main application component 
-          The root component that contains the entire application logic.
-        */}
         <App />
       </Router>
     </Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </StrictMode>
 );
+
+const renderApp = () => {
+  const store = configureStore(initialState, configuration);
+  render(<RootComponent store={store} />, document.getElementById('root'));
+};
+
+renderApp();

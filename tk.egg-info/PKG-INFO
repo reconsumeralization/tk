@@ -1,0 +1,209 @@
+Metadata-Version: 2.1
+Name: tk
+Version: 1.0.0
+Summary: A Python backend for the tk React project
+Home-page: https://github.com/yourusername/tk
+Author: David Weatherspoon
+Author-email: reconsumeralization@gmail.com
+License: MIT
+Platform: UNKNOWN
+
+# TeacherStudentParentAdminAi System
+
+## Overview
+
+The TeacherStudentParentAdminAi system is a comprehensive web application designed to facilitate seamless communication and interaction between teachers, students, parents, administrators, and an integrated AI module. The system aims to enhance educational processes through features like auto-grading, chat, quizzes, tests, and personalized learning.
+
+## Features
+
+The system includes user roles for teachers, students, parents, administrators, and an AI module. It supports real-time chat, auto-grading of assignments, quizzes and tests, and AI integration for lesson planning, personalized learning, and assessment feedback.
+
+## System Architecture
+
+The backend is built with Python/Flask for server-side logic, SQLAlchemy for database management, and a RESTful API for frontend communication. The frontend uses React/TypeScript for a dynamic and responsive user interface, Redux for state management, and Axios for handling API requests. The AI module uses Hugging Face Transformers for natural language processing and is integrated with the backend services.
+
+## Deployment
+
+The application is packaged using Docker and deployed using Kubernetes for scalable and efficient deployment.
+
+## Testing
+
+The backend and frontend components are thoroughly tested with unit and integration tests.
+
+## Documentation
+
+This README provides an overview, setup instructions, and usage guidelines. Detailed project documentation can be found in Documentation.md. Future development plans are outlined in the ROADMAP.
+
+## Security
+
+The system uses JWT for secure user authentication and HTTPS for secure data transmission.
+
+## Future Enhancements
+
+Future enhancements include advanced AI features for predictive analytics and the development of mobile applications for Android and iOS.
+
+## Constraints
+
+The project delivery is within specified timelines and considers hardware and infrastructure constraints.
+
+## Setup
+
+1. Clone the repository.
+2. Install the dependencies with `pip install -r requirements.txt` and `npm install`.
+3. Run the backend server with `python app.py`.
+4. Run the frontend with `npm start`.
+
+## Usage
+
+1. Register a new user with a POST request to `/users`.
+2. Log in with a POST request to `/login`.
+3. Access protected routes with the provided JWT token.
+4. Use the AI module with the provided endpoints.
+
+## Code Snippets
+
+Here are some code snippets from the project:
+
+### app.py
+
+```python
+from flask import Flask, request, jsonify
+from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
+from models import db
+import routes
+import ai_module
+
+app = Flask(__name__)
+
+# Configure database
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db.init_app(app)
+
+# Enable CORS
+CORS(app)
+
+# Register routes
+app.register_blueprint(routes.bp)
+
+# Initialize AI module
+ai_module.init()
+
+@app.before_first_request
+def create_tables():
+    db.create_all()
+
+if __name__ == '__main__':
+    app.run(debug=True)
+```
+
+### models.py
+
+```python
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import relationship
+
+db = SQLAlchemy()
+
+class User(db.Model):
+    __tablename__ = 'users'
+
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    password = db.Column(db.String(120), nullable=False)
+    role = db.Column(db.String(20), nullable=False)
+
+    courses = relationship('Course', secondary='user_course', backref='users')
+
+class Course(db.Model):
+    __tablename__ = 'courses'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80), nullable=False)
+    teacher_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    users = relationship('User', secondary='user_course', backref='courses')
+
+class UserCourse(db.Model):
+    __tablename__ = 'user_course'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    course_id = db.Column(db.Integer, db.ForeignKey('courses.id'))
+
+class Assignment(db.Model):
+    __tablename__ = 'assignments'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80), nullable=False)
+    course_id = db.Column(db.Integer, db.ForeignKey('courses.id'))
+```
+
+### routes.py
+
+```python
+from flask import Blueprint, request, jsonify
+from models import db, User, Course, UserCourse, Assignment, Test, Chat
+from flask_jwt_extended import jwt_required, get_jwt_identity
+
+bp = Blueprint('routes', __name__)
+
+@bp.route('/users', methods=['POST'])
+def create_user():
+    data = request.get_json()
+    new_user = User(username=data['username'], password=data['password'], role=data['role'])
+    db.session.add(new_user)
+    db.session.commit()
+    return jsonify({'message': 'User created'}), 201
+
+@bp.route('/users', methods=['GET'])
+@jwt_required()
+def get_users():
+    users = User.query.all()
+    return jsonify([user.serialize for user in users]), 200
+
+@bp.route('/courses', methods=['POST'])
+@jwt_required()
+def create_course():
+    data = request.get_json()
+    new_course = Course(name=data['name'], teacher_id=data['teacher_id'])
+    db.session.add(new_course)
+    db.session.commit()
+```
+
+### ai_module.py
+
+```python
+from transformers import pipeline
+
+class AIModule:
+    def __init__(self):
+        self.lesson_planning_ai = pipeline('text-generation')
+        self.personalized_learning_ai = pipeline('text-classification')
+        self.assessment_feedback_ai = pipeline('sentiment-analysis')
+
+    def generate_lesson_plan(self, topic):
+        return self.lesson_planning_ai(topic)[0]['generated_text']
+
+    def get_learning_recommendation(self, student_performance):
+        return self.personalized_learning_ai(student_performance)
+
+    def get_assessment_feedback(self, student_answers):
+        return self.assessment_feedback_ai(student_answers)
+```
+
+### index.tsx
+
+```tsx
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import { BrowserRouter as Router } from 'react-router-dom';
+
+import App from './App';
+```
+
+

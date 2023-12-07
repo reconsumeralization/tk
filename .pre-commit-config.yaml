@@ -1,0 +1,10 @@
+repos:
+  - repo: https://github.com/psf/black
+    rev: 21.9b0  # Use the latest stable version
+    hooks:
+      - id: black
+        args: [--line-length=100]  # Set the desired line length
+  - repo: https://github.com/pre-commit/mirrors-autopep8
+    rev: v1.5.7  # Use the latest stable version
+    hooks:
+      - id: autopep8

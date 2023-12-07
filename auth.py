@@ -8,7 +8,13 @@ auth = Blueprint('auth', __name__)
 @auth.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
-    hashed_password = generate_password_hash(data['password'], method='sha256')
+    hashed_password = generate_password_hash(data['password'])
+
+    # Check if username is already taken
+    existing_user = User.query.filter_by(username=data['username']).first()
+    if existing_user:
+        return jsonify({'message': 'Registration failed. Username already taken.'}), 409
+
     new_user = User(username=data['username'], password=hashed_password, role=data['role'])
     db.session.add(new_user)
     db.session.commit()
@@ -22,7 +28,7 @@ def login():
         return jsonify({'message': 'Login Unsuccessful'}), 401
 
     access_token = create_access_token(identity=user.username)
-    return jsonify(access_token=access_token), 200
+    return jsonify({'message': 'Login successful', 'access_token': access_token}), 200
 
 @auth.route('/profile', methods=['GET'])
 @jwt_required()
