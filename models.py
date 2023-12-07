@@ -7,11 +7,11 @@ class User(db.Model):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
+    username = db.Column(db.String(80), index=True, unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
     role = db.Column(db.String(20), nullable=False)
 
-    courses = relationship('Course', secondary='user_course', backref='users')
+    courses = relationship('Course', secondary='user_course', backref='users', cascade='all, delete-orphan')
 
 class Course(db.Model):
     __tablename__ = 'courses'
@@ -20,7 +20,7 @@ class Course(db.Model):
     name = db.Column(db.String(80), nullable=False)
     teacher_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
-    users = relationship('User', secondary='user_course', backref='courses')
+    users = relationship('User', secondary='user_course', backref='courses', cascade='all, delete-orphan')
 
 class UserCourse(db.Model):
     __tablename__ = 'user_course'
