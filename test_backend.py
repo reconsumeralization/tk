@@ -31,6 +31,29 @@ class TestBackend(unittest.TestCase):
 
     def test_get_users(self):
     def test_register(self):
+    def test_delete_user(self):
+        user = User(username='testuser', password='testpassword', role='student')
+        self.db.session.add(user)
+        self.db.session.commit()
+        response = self.app.delete('/users/1')
+        self.assertEqual(response.status_code, 200)
+        user = User.query.filter_by(username='testuser').first()
+        self.assertIsNone(user)
+    
+    def test_update_user(self):
+        user = User(username='testuser', password='testpassword', role='student')
+        self.db.session.add(user)
+        self.db.session.commit()
+        response = self.app.put('/users/1', json={
+            'username': 'updateduser',
+            'password': 'updatedpassword',
+            'role': 'teacher'
+        })
+        self.assertEqual(response.status_code, 200)
+        user = User.query.filter_by(username='updateduser').first()
+        self.assertIsNotNone(user)
+        self.assertEqual(user.username, 'updateduser')
+        self.assertEqual(user.role, 'teacher')
         response = self.app.post('/register', json={
             'username': 'testuser',
             'password': 'testpassword',
@@ -65,6 +88,28 @@ class TestBackend(unittest.TestCase):
         self.assertIsInstance(data, list)
 
     def test_create_course(self):
+    def test_delete_course(self):
+        course = Course(name='testcourse', teacher_id=1)
+        self.db.session.add(course)
+        self.db.session.commit()
+        response = self.app.delete('/courses/1')
+        self.assertEqual(response.status_code, 200)
+        course = Course.query.filter_by(name='testcourse').first()
+        self.assertIsNone(course)
+    
+    def test_update_course(self):
+        course = Course(name='testcourse', teacher_id=1)
+        self.db.session.add(course)
+        self.db.session.commit()
+        response = self.app.put('/courses/1', json={
+            'name': 'updatedcourse',
+            'teacher_id': 2
+        })
+        self.assertEqual(response.status_code, 200)
+        course = Course.query.filter_by(name='updatedcourse').first()
+        self.assertIsNotNone(course)
+        self.assertEqual(course.name, 'updatedcourse')
+        self.assertEqual(course.teacher_id, 2)
         response = self.app.post('/courses', json={
             'name': 'testcourse',
             'teacher_id': 1
@@ -124,6 +169,28 @@ class TestBackend(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         data = response.get_json()
         self.assertIsInstance(data, list)
+    def test_delete_assignment(self):
+        assignment = Assignment(name='testassignment', course_id=1)
+        self.db.session.add(assignment)
+        self.db.session.commit()
+        response = self.app.delete('/assignments/1')
+        self.assertEqual(response.status_code, 200)
+        assignment = Assignment.query.filter_by(name='testassignment').first()
+        self.assertIsNone(assignment)
+    
+    def test_update_assignment(self):
+        assignment = Assignment(name='testassignment', course_id=1)
+        self.db.session.add(assignment)
+        self.db.session.commit()
+        response = self.app.put('/assignments/1', json={
+            'name': 'updatedassignment',
+            'course_id': 2
+        })
+        self.assertEqual(response.status_code, 200)
+        assignment = Assignment.query.filter_by(name='updatedassignment').first()
+        self.assertIsNotNone(assignment)
+        self.assertEqual(assignment.name, 'updatedassignment')
+        self.assertEqual(assignment.course_id, 2)
 
 if __name__ == "__main__":
     unittest.main()
