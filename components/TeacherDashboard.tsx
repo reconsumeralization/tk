@@ -14,10 +14,10 @@ import Calendar from './Calendar'; // for calendar and scheduling
 import Notifications from './Notifications'; // for notifications
 
 // Custom hook for fetching data
-const useFetch = (url, data) => {
-  const [response, setResponse] = useState(null);
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+const useFetch = <T, U>(url: T, data: U) => {
+  const [response, setResponse] = useState<any>(null);
+  const [error, setError] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const fetchData = useCallback(async () => {
     setIsLoading(true);
