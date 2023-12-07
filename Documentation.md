@@ -18,7 +18,11 @@ The TeacherStudentParentAdminAi system is designed to enhance educational proces
 
 ## System Architecture
 
-The system is built using a combination of Python/Flask for server-side logic, SQLAlchemy for database management, and a RESTful API for frontend communication. The frontend is built using React/TypeScript for a dynamic and responsive user interface, Redux for state management, and Axios for handling API requests.
+The system is built using a combination of Python/Flask for server-side logic, SQLAlchemy for database management, and a RESTful API for frontend communication. The frontend is built using React/TypeScript for a dynamic and responsive user interface, Redux for state management, and Axios for handling API requests. The AI features are implemented using Scikit-learn, a machine learning library for Python.
+
+## AI Module
+
+The AI module, defined in `ai_module.py` and `ai_features.py`, uses Hugging Face Transformers for natural language processing tasks such as lesson planning, personalized learning recommendations, and assessment feedback. Additionally, it uses Scikit-learn for data analysis and predictive modeling. The `DataAnalyzer` class in `ai_features.py` provides methods for analyzing data, training a linear regression model, and making predictions.
 
 ## API Endpoints
 
@@ -49,4 +53,32 @@ The database models are defined in the `models.py` file. The models include User
 Future enhancements include advanced AI features for predictive analytics and the development of mobile applications for Android and iOS.
 
 For more information, please refer to the `ROADMAP.md` file.
+## Using the AI Features
+
+To use the AI features, you need to create an instance of the `DataAnalyzer` class and call its methods. Here is an example:
+
+```python
+from ai_features import DataAnalyzer
+import pandas as pd
+
+# Create a DataFrame
+data = pd.DataFrame({
+    'A': [1, 2, 3, 4, 5],
+    'B': [2, 3, 4, 5, 6]
+})
+
+# Create a DataAnalyzer instance
+analyzer = DataAnalyzer()
+
+# Analyze the data
+print(analyzer.analyze_data(data))
+
+# Train a model
+X = data[['A']]
+y = data['B']
+print(analyzer.train_model(X, y))
+
+# Make predictions
+print(analyzer.predict_data(X))
+```
 
