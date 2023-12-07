@@ -17,6 +17,7 @@ import Notifications from './Notifications'; // for notifications
 const useFetch = <T, U>(url: T, data: U) => {
   const [response, setResponse] = useState<U | null>(null);
   const [error, setError] = useState<Error | null>(null);
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const fetchData = useCallback<() => Promise<void>>(async () => {
