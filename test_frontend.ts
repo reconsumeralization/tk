@@ -19,13 +19,12 @@ const setup = async (user) => {
   });
 
   render(
-    render(
-      <Provider store={store}>
-        <Router>
-          <App />
-        </Router>
-      </Provider>
-    );
+    <Provider store={store}>
+      <Router>
+        <App />
+      </Router>
+    </Provider>
+  );
   fireEvent.change(screen.getByLabelText(/username/i), {
     target: { value: user.username },
   });
@@ -64,6 +63,33 @@ test('navigates to the teacher dashboard', async () => {
 });
 
 test('navigates to the student dashboard', async () => {
+test('successful registration', async () => {
+  actions.createUser = jest.fn().mockResolvedValueOnce({
+    data: {
+      username: 'newuser',
+      password: 'password',
+      role: 'teacher',
+    },
+  });
+
+  await setup({ username: 'newuser', password: 'password', role: 'teacher' });
+
+  expect(screen.getByText(/registration successful/i)).toBeInTheDocument();
+});
+  actions.createUser = jest.fn().mockResolvedValueOnce({
+    data: {
+      username: 'student1',
+      password: 'password',
+      role: 'student',
+    },
+  });
+
+  await setup({ username: 'student1', password: 'password', role: 'student' });
+
+  expect(screen.getByText(/student dashboard/i)).toBeInTheDocument();
+  // Add more assertions here
+});
+
 test('navigates to the admin dashboard', async () => {
   actions.createUser = jest.fn().mockResolvedValueOnce({
     data: {
@@ -92,14 +118,21 @@ test('displays an error message for unsuccessful registration', async () => {
 
   expect(screen.getByText(/username already exists/i)).toBeInTheDocument();
 });
+
+test('navigates to the parent dashboard', async () => {
   actions.createUser = jest.fn().mockResolvedValueOnce({
     data: {
-      username: 'student1',
+      username: 'parent1',
       password: 'password',
-      role: 'student',
+      role: 'parent',
     },
   });
 
+  await setup({ username: 'parent1', password: 'password', role: 'parent' });
+
+  expect(screen.getByText(/parent dashboard/i)).toBeInTheDocument();
+  // Add more assertions here
+});
   await setup({ username: 'student1', password: 'password', role: 'student' });
 
   expect(screen.getByText(/student dashboard/i)).toBeInTheDocument();
