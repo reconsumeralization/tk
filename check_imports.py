@@ -1,23 +1,48 @@
 import importlib
+import ast
+import pathlib
+import logging
+import argparse
 import os
-import re
-import subprocess
-import sys
 
+# Set up logging
+logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
+
+# Parse command-line arguments
+parser = argparse.ArgumentParser(description="Check imports in .py files")
+parser.add_argument("directory", help="directory to check")
+args = parser.parse_args()
 
 def check_imports(directory_path):
-    for root, dirs, files in os.walk(directory_path):
-        for file in files:
-            if file.endswith('.py'):
-                with open(os.path.join(root, file), 'r') as f:
-                    content = f.read()
-                    imports = re.findall(r'^import [\w.]+|^from [\w.]+ import [\w.]+', content, re.MULTILINE)
-                    for import_line in imports:
-                        module_name = import_line.split()[1].split('.')[0]
-                        try:
-                            if importlib.util.find_spec(module_name) is None:
-                                subprocess.run([sys.executable, '-m', 'pip', 'install', module_name])
-                        except ImportError:
-                            print(f'Incorrect import statement in {file}: {import_line}')
+    # Use pathlib to get a Path object for the directory
+    directory = pathlib.Path(directory_path)
+    # Use glob to find all the .py files in the directory
+    for file in directory.glob("*.py"):
+        # Use os.path.splitext to get the file extension
+        _, ext = os.path.splitext(file)
+        if ext == ".py":
+            # Use try-except-else-finally to handle exceptions and close the file
+            try:
+                # Use read_text to get the file contents as a string
+                file_contents = file.read_text()
+            except IOError as e:
+                # Log the error
+                logging.error(f"Could not read file {file}: {e}")
+            else:
+                # Use ast to parse the file contents and get the import nodes
+                import_nodes = [node for node in ast.walk(file_contents) if isinstance(node, (ast.Import, ast.ImportFrom))]
+                # Loop through the import nodes
+                for node in import_nodes:
+                    # Get the module name from the node
+                    module_name = node.module.split(".")[0]
+                    # Try to import the module using importlib
+                    try:
+                        importlib.import_module(module_name)
+                    # If the module is not found, log the error
+                    except ImportError:
+                        logging.error(f"Incorrect import in file {file}: {node}")
+            finally:
+                # Close the file
+                file.close()
 
-check_imports('.')
+check_imports(args.directory)
