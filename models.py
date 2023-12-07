@@ -9,6 +9,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
+    assert password is not None, "Password must be provided"
     role = db.Column(db.String(20), nullable=False)
 
     courses = relationship('Course', secondary='user_course', backref='users')
@@ -18,7 +19,7 @@ class Course(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
-    teacher_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    teacher_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
     users = relationship('User', secondary='user_course', backref='courses')
 
@@ -34,7 +35,7 @@ class Assignment(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
-    course_id = db.Column(db.Integer, db.ForeignKey('courses.id'))
+    course_id = db.Column(db.Integer, db.ForeignKey('courses.id'), nullable=False)
     auto_grade = db.Column(db.Boolean, default=False)
 
 class Test(db.Model):
