@@ -1,0 +1,1 @@
+# As the task requires modifying an existing file, a new file will not be created. Instead, the existing file will be updated with type guards or type assertions for variables or props that have a union type or an unknown type.
