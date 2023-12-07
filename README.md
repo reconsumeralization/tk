@@ -12,45 +12,106 @@ The system includes user roles for teachers, students, parents, administrators, 
 
 The backend is built with Python/Flask for server-side logic, SQLAlchemy for database management, and a RESTful API for frontend communication. The frontend uses React/TypeScript for a dynamic and responsive user interface, Redux for state management, and Axios for handling API requests. The AI module uses Hugging Face Transformers for natural language processing and is integrated with the backend services.
 
+
 ## Deployment
 
-The application is packaged using Docker and deployed using Kubernetes for scalable and efficient deployment.
+To package the application for deployment, Docker is used to create containers for both the frontend and backend components. Kubernetes is then used for orchestration, handling the deployment, scaling, and management of these containers. The following commands can be used:
+
+1. Build the Docker images:
+   - Backend: `docker build -t backend-image .` (run in the backend directory)
+   - Frontend: `docker build -t frontend-image .` (run in the frontend directory)
+2. Push the images to a registry (optional):
+   - `docker push backend-image`
+   - `docker push frontend-image`
+3. Deploy the application using Kubernetes:
+   - Apply the configuration files: `kubectl apply -f deployment.yml`
+   - Monitor the deployment: `kubectl rollout status deployment/backend` and `kubectl rollout status deployment/frontend`
+
+
 
 ## Testing
+
+Comprehensive tests are conducted to ensure the quality of the software. Unit tests cover individual functions and components, while integration tests assess the interactions between different parts of the system. To execute the tests, follow the commands below:
+
+1. Backend tests:
+   - Navigate to the backend directory and run `pytest`.
+2. Frontend tests:
+   - Navigate to the frontend directory and run `npm test`.
+3. End-to-end tests:
+   - Execute `npm run e2e` in the repository root.
 
 The backend and frontend components are thoroughly tested with unit and integration tests.
 
 ## Documentation
 
-This README provides an overview, setup instructions, and usage guidelines. Detailed project documentation can be found in Documentation.md. Future development plans are outlined in the ROADMAP.
+
+This README offers a brief introduction to the application, with instructions for setup and usage. For comprehensive documentation, refer to [Documentation.md](/Documentation.md). Our future development roadmap is detailed in [ROADMAP.md](/ROADMAP.md).
+
 
 ## Security
 
-The system uses JWT for secure user authentication and HTTPS for secure data transmission.
+
+Security is a paramount concern, and as such, the system employs JSON Web Tokens (JWT) to manage user authentication securely. All data is transmitted over HTTPS to ensure confidentiality and integrity of the data in transit.
+
 
 ## Future Enhancements
 
-Future enhancements include advanced AI features for predictive analytics and the development of mobile applications for Android and iOS.
+
+In upcoming iterations, we aim to incorporate state-of-the-art AI capabilities to enable predictive analytics, enhancing the decision-making process and driving student success. Additionally, mobile applications for both Android and iOS platforms are under development to extend accessibility and reach.
+
 
 ## Constraints
 
-The project delivery is within specified timelines and considers hardware and infrastructure constraints.
+
+Adherence to the project delivery timeline is critical, and we are cognizant of the hardware and infrastructure constraints that may impact development. Our approach is designed to be pragmatic, ensuring milestones are met without compromising on the quality or performance of the application.
+
+
 
 ## Setup
 
-1. Clone the repository.
-2. Install the dependencies with `pip install -r requirements.txt` and `npm install`.
-3. Run the backend server with `python app.py`.
-4. Run the frontend with `npm start`.
+To set up the application locally for development or testing purposes, follow these steps:
+
+1. Clone the repository using `git clone repository_url`.
+2. Install the backend dependencies with `cd backend` and `pip install -r requirements.txt`.
+3. Install the frontend dependencies with `cd frontend` and `npm install`.
+4. Start the backend server with `python app.py` from the backend directory.
+5. Launch the frontend by running `npm start` from the frontend directory.
+
+
 
 ## Usage
 
-1. Register a new user with a POST request to `/users`.
-2. Log in with a POST request to `/login`.
-3. Access protected routes with the provided JWT token.
-4. Use the AI module with the provided endpoints.
+Follow these steps to interact with the application:
+
+1. Create a new user account by sending a POST request to `/api/users` with the required user details.
+2. Log in by sending a POST request to `/api/login` to receive a JWT token.
+3. Use the obtained JWT token to authenticate and access protected routes.
+4. Interact with the AI module for educational support by using the available API endpoints at `/api/ai`.
+
+
 
 ## Code Snippets
+
+The following are updated code excerpts from the project repository, showcasing the structure and functionality of key components:
+
+### app.py
+
+```python
+# Updated app.py content goes here...
+```
+
+### routes.py
+
+```python
+# Updated routes.py content goes here...
+```
+
+### ai_module.py
+
+```python
+# Updated ai_module.py content goes here...
+```
+
 
 Here are some code snippets from the project:
 
