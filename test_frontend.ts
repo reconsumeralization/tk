@@ -64,6 +64,19 @@ test('navigates to the teacher dashboard', async () => {
 });
 
 test('navigates to the student dashboard', async () => {
+test('navigates to the teacher dashboard with incorrect credentials', async () => {
+  actions.createUser = jest.fn().mockRejectedValueOnce({
+    response: {
+      data: {
+        message: 'Invalid username or password',
+      },
+    },
+  });
+
+  await setup({ username: 'wrongteacher', password: 'wrongpassword', role: 'teacher' });
+
+  expect(screen.getByText(/invalid username or password/i)).toBeInTheDocument();
+});
 test('navigates to the admin dashboard', async () => {
   actions.createUser = jest.fn().mockResolvedValueOnce({
     data: {
@@ -80,6 +93,33 @@ test('navigates to the admin dashboard', async () => {
 });
 
 test('displays an error message for unsuccessful registration', async () => {
+test('navigates to the student dashboard with incorrect credentials', async () => {
+  actions.createUser = jest.fn().mockRejectedValueOnce({
+    response: {
+      data: {
+        message: 'Invalid username or password',
+      },
+    },
+  });
+
+  await setup({ username: 'wrongstudent', password: 'wrongpassword', role: 'student' });
+
+  expect(screen.getByText(/invalid username or password/i)).toBeInTheDocument();
+});
+
+test('navigates to the admin dashboard with incorrect credentials', async () => {
+  actions.createUser = jest.fn().mockRejectedValueOnce({
+    response: {
+      data: {
+        message: 'Invalid username or password',
+      },
+    },
+  });
+
+  await setup({ username: 'wrongadmin', password: 'wrongpassword', role: 'admin' });
+
+  expect(screen.getByText(/invalid username or password/i)).toBeInTheDocument();
+});
   actions.createUser = jest.fn().mockRejectedValueOnce({
     response: {
       data: {
@@ -155,4 +195,35 @@ test('displays an error message for unsuccessful assignment creation', async () 
   fireEvent.click(screen.getByText(/create assignment/i));
 
   expect(screen.getByText(/assignment already exists/i)).toBeInTheDocument();
+});
+test('displays an error message for unsuccessful course creation without course name', async () => {
+  actions.createCourse = jest.fn().mockRejectedValueOnce({
+    response: {
+      data: {
+        message: 'Course name is required',
+      },
+    },
+  });
+
+  await setup({ username: 'teacher1', password: 'password', role: 'teacher' });
+
+  fireEvent.click(screen.getByText(/create course/i));
+
+  expect(screen.getByText(/course name is required/i)).toBeInTheDocument();
+});
+
+test('displays an error message for unsuccessful assignment creation without assignment name', async () => {
+  actions.createAssignment = jest.fn().mockRejectedValueOnce({
+    response: {
+      data: {
+        message: 'Assignment name is required',
+      },
+    },
+  });
+
+  await setup({ username: 'teacher1', password: 'password', role: 'teacher' });
+
+  fireEvent.click(screen.getByText(/create assignment/i));
+
+  expect(screen.getByText(/assignment name is required/i)).toBeInTheDocument();
 });
