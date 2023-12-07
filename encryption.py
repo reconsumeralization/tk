@@ -1,5 +1,9 @@
 from flask import Blueprint, request, jsonify
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import check_password_hash
+from flask_bcrypt import Bcrypt
+
+bcrypt = Bcrypt()
+
 from models import db, User
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
@@ -15,7 +19,7 @@ def change_password():
     if not user or not check_password_hash(user.password, data['old_password']):
         return jsonify({'message': 'Old password is incorrect'}), 401
 
-    hashed_password = generate_password_hash(data['new_password'], method='sha256')
+    hashed_password = bcrypt.generate_password_hash(data['new_password']).decode('utf-8')
     user.password = hashed_password
     db.session.commit()
 
@@ -25,12 +29,30 @@ def change_password():
 @jwt_required()
 def encrypt_data():
     data = request.get_json()
-    encrypted_data = {}  # Placeholder for the actual encryption logic
+    
+    if 'data' not in data or not isinstance(data['data'], str):
+        return jsonify({'message': 'No data provided or invalid data format'}), 400
+
+    try:
+        encoded_data = data['data'].encode()
+        encrypted_data = fernet.encrypt(encoded_data).decode()
+    except Exception as e:
+        return jsonify({'message': 'Encryption failed', 'error': str(e)}), 500
+
     return jsonify(encrypted_data), 200
 
 @encryption.route('/decrypt_data', methods=['POST'])
 @jwt_required()
 def decrypt_data():
     data = request.get_json()
-    decrypted_data = {}  # Placeholder for the actual decryption logic
+    
+    if 'data' not in data or not isinstance(data['data'], str):
+        return jsonify({'message': 'No data provided or invalid data format'}), 400
+
+    try:
+        encoded_data = data['data'].encode()
+        decrypted_data = fernet.decrypt(encoded_data).decode()
+    except Exception as e:
+        return jsonify({'message': 'Decryption failed', 'error': str(e)}), 500
+
     return jsonify(decrypted_data), 200
