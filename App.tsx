@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { useNavigate, useLocation, useRoutes } from 'react-router-dom';
 
 import TeacherDashboard from './components/TeacherDashboard';
 import StudentDashboard from './components/StudentDashboard';
@@ -8,19 +8,32 @@ import AdminDashboard from './components/AdminDashboard';
 import Login from './components/Login';
 import NotFound from './components/NotFound';
 
-const App: React.FC = () => {
+// Define the prop types for the App component
+type AppProps = {
+  // Add any props you need here
+};
+
+// Define the App component as a functional component
+const App: React.FC<AppProps> = (props) => {
+  // Use the useNavigate hook to navigate between routes
+  const navigate = useNavigate();
+
+  // Use the useLocation hook to get the current location
+  const location = useLocation();
+
+  // Use the useRoutes hook to define the routes
+  const routes = useRoutes([
+    { path: '/', element: <Login /> },
+    { path: '/teacher', element: <TeacherDashboard /> },
+    { path: '/student', element: <StudentDashboard /> },
+    { path: '/parent', element: <ParentDashboard /> },
+    { path: '/admin', element: <AdminDashboard /> },
+    { path: '*', element: <NotFound /> },
+  ]);
+
   return (
     <div className="App">
-      <Router>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/teacher" element={<TeacherDashboard />} />
-          <Route path="/student" element={<StudentDashboard />} />
-          <Route path="/parent" element={<ParentDashboard />} />
-          <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Router>
+      {routes}
     </div>
   );
 }
