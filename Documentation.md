@@ -1,6 +1,6 @@
 # TeacherStudentParentAdminAi Documentation
 
-This document provides a detailed overview of the TeacherStudentParentAdminAi system, a comprehensive web application designed to facilitate seamless communication and interaction between teachers, students, parents, administrators, and an integrated AI module.
+This document provides a detailed overview of the TeacherStudentParentAdminAi system, a comprehensive web application designed to facilitate seamless communication and interaction between teachers, students, parents, administrators, and an integrated AI module. This document also includes updates on the latest features, refactors, and tests added to the system.
 
 ## Table of Contents
 
@@ -11,9 +11,9 @@ This document provides a detailed overview of the TeacherStudentParentAdminAi sy
 - [Testing](#testing)
 - [Deployment](#deployment)
 - [Security](#security)
+- [Latest Updates](#latest-updates)
 
 ## System Overview
-
 The TeacherStudentParentAdminAi system is designed to enhance educational processes through features like auto-grading, chat, quizzes, tests, and personalized learning. The system has different user roles including Teacher, Student, Parent, Administrator, and AI Module, each with their unique functionalities.
 
 ## System Architecture
@@ -29,6 +29,9 @@ The AI module, defined in `ai_module.py` and `ai_features.py`, uses Hugging Face
 The system provides several API endpoints for managing users, courses, assignments, tests, and chats. These endpoints are defined in the `routes.py` file. All routes are protected with JWT authentication, except for the user creation route.
 
 ## AI Module
+## Latest Updates
+
+This section provides updates on the latest features, refactors, and tests added to the system. For a detailed changelog, please refer to the `CHANGELOG.md` file.
 
 The AI module, defined in `ai_module.py`, uses Hugging Face Transformers for natural language processing tasks such as lesson planning, personalized learning recommendations, and assessment feedback.
 
@@ -43,7 +46,9 @@ The system is packaged using Docker for containerization and Kubernetes for orch
 ## Security
 
 The system uses JWT for secure user authentication and HTTPS for secure data transmission. These features are implemented in the `auth.py` and `encryption.py` files respectively.
+## Latest Tests
 
+This section provides updates on the latest tests added to the system. For a detailed test log, please refer to the `TESTLOG.md` file.
 ## Database Models
 
 The database models are defined in the `models.py` file. The models include User, Course, UserCourse (a relationship table), Assignment, Test, and Chat.
@@ -59,6 +64,9 @@ To use the AI features, you need to create an instance of the `DataAnalyzer` cla
 
 ```python
 from ai_features import DataAnalyzer
+## Latest Features
+
+This section provides updates on the latest features added to the system. For a detailed feature log, please refer to the `FEATURELOG.md` file.
 import pandas as pd
 
 # Create a DataFrame
@@ -74,6 +82,10 @@ analyzer = DataAnalyzer()
 print(analyzer.analyze_data(data))
 
 # Train a model
+# Analyze the data
+print(analyzer.analyze_data(data, 'A', 'B'))
+
+# Train a model
 X = data[['A']]
 y = data['B']
 print(analyzer.train_model(X, y))
@@ -81,4 +93,11 @@ print(analyzer.train_model(X, y))
 # Make predictions
 print(analyzer.predict_data(X))
 ```
+# Train a model
+X = data[['A']]
+y = data['B']
+print(analyzer.train_model(X, y, 'linear_regression'))
+
+# Make predictions
+print(analyzer.predict_data(X, 'linear_regression'))
 

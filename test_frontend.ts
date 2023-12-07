@@ -20,13 +20,12 @@ const setup = async (user) => {
   });
 
   render(
-    render(
-      <Provider store={store}>
-        <Router>
-          <App />
-        </Router>
-      </Provider>
-    );
+    <Provider store={store}>
+      <Router>
+        <App />
+      </Router>
+    </Provider>
+  );
   fireEvent.change(screen.getByLabelText(/username/i), {
     target: { value: user.username },
   });
@@ -65,6 +64,7 @@ test('navigates to the teacher dashboard', async () => {
 });
 
 test('navigates to the student dashboard', async () => {
+
 test('renders the new component', () => {
   render(
     <Provider store={mockStore({})}>
@@ -75,6 +75,7 @@ test('renders the new component', () => {
   );
   expect(screen.getByText(/new component/i)).toBeInTheDocument();
 });
+
 test('navigates to the admin dashboard', async () => {
   actions.createUser = jest.fn().mockResolvedValueOnce({
     data: {
@@ -115,14 +116,21 @@ test('navigates to the new component', async () => {
 
   expect(screen.getByText(/username already exists/i)).toBeInTheDocument();
 });
+
+test('navigates to the parent dashboard', async () => {
   actions.createUser = jest.fn().mockResolvedValueOnce({
     data: {
-      username: 'student1',
+      username: 'parent1',
       password: 'password',
-      role: 'student',
+      role: 'parent',
     },
   });
 
+  await setup({ username: 'parent1', password: 'password', role: 'parent' });
+
+  expect(screen.getByText(/parent dashboard/i)).toBeInTheDocument();
+  // Add more assertions here
+});
   await setup({ username: 'student1', password: 'password', role: 'student' });
 
   expect(screen.getByText(/student dashboard/i)).toBeInTheDocument();

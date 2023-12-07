@@ -73,7 +73,23 @@ class TestBackend(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         data = response.get_json()
         self.assertIsNotNone(data['access_token'])
+    def test_update_user(self):
+        response = self.app.put('/users/1', json={
+            'username': 'updateduser',
+            'password': 'updatedpassword',
+            'role': 'teacher'
+        })
+        self.assertEqual(response.status_code, 200)
+        user = User.query.get(1)
+        self.assertIsNotNone(user)
+        self.assertEqual(user.username, 'updateduser')
+        self.assertEqual(user.role, 'teacher')
 
+    def test_delete_user(self):
+        response = self.app.delete('/users/1')
+        self.assertEqual(response.status_code, 200)
+        user = User.query.get(1)
+        self.assertIsNone(user)
     def test_profile(self):
         response = self.app.get('/profile', headers={
             'Authorization': 'Bearer ' + self.access_token
@@ -142,6 +158,22 @@ class TestBackend(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_decrypt_data(self):
+    def test_update_course(self):
+        response = self.app.put('/courses/1', json={
+            'name': 'updatedcourse',
+            'teacher_id': 2
+        })
+        self.assertEqual(response.status_code, 200)
+        course = Course.query.get(1)
+        self.assertIsNotNone(course)
+        self.assertEqual(course.name, 'updatedcourse')
+        self.assertEqual(course.teacher_id, 2)
+
+    def test_delete_course(self):
+        response = self.app.delete('/courses/1')
+        self.assertEqual(response.status_code, 200)
+        course = Course.query.get(1)
+        self.assertIsNone(course)
         response = self.app.post('/decrypt_data', json={
             'data': 'testdata'
         }, headers={
@@ -211,3 +243,19 @@ if __name__ == "__main__":
         self.assertIsNotNone(course)
         self.assertEqual(course.name, 'testcourse')
         self.assertEqual(course.teacher_id, 1)
+    def test_update_assignment(self):
+        response = self.app.put('/assignments/1', json={
+            'name': 'updatedassignment',
+            'course_id': 2
+        })
+        self.assertEqual(response.status_code, 200)
+        assignment = Assignment.query.get(1)
+        self.assertIsNotNone(assignment)
+        self.assertEqual(assignment.name, 'updatedassignment')
+        self.assertEqual(assignment.course_id, 2)
+
+    def test_delete_assignment(self):
+        response = self.app.delete('/assignments/1')
+        self.assertEqual(response.status_code, 200)
+        assignment = Assignment.query.get(1)
+        self.assertIsNone(assignment)
