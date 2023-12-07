@@ -1,0 +1,19 @@
+// Assuming we have a variable 'status' that can be 'pending', 'success', or 'error'
+
+// Step 2: Define a union type for the 'status' variable
+type Status = 'pending' | 'success' | 'error';
+
+// Step 3: Replace the type of the 'status' variable with the 'Status' type
+let status: Status;
+
+// Step 4: Update usage of the 'status' variable
+function updateStatus(newStatus: Status) {
+    status = newStatus;
+}
+
+// Test the updateStatus function with all possible values of the 'Status' type
+updateStatus('pending');
+updateStatus('success');
+updateStatus('error');
+
+// Repeat steps 2-4 for all other variables or props with a finite set of possible values
