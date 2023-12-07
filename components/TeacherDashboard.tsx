@@ -1,19 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import { Spinner } from 'react-bootstrap'; // for loading spinner
-import ErrorComponent from './ErrorComponent'; // for better error display
-import { useChat } from 'ai/react'; // from Vercel AI SDK
-import StudentManagement from './StudentManagement'; // for managing students
-import CourseManagement from './CourseManagement'; // for managing courses
-import AssignmentManagement from './AssignmentManagement'; // for managing assignments
-import AttendanceTracking from './AttendanceTracking'; // for tracking attendance
-import PerformanceTracking from './PerformanceTracking'; // for tracking performance
-import CommunicationTools from './CommunicationTools'; // for communication
-import ResourceLibrary from './ResourceLibrary'; // for resources
-import Calendar from './Calendar'; // for calendar and scheduling
-import Notifications from './Notifications'; // for notifications
+import { Spinner } from 'react-bootstrap';
+import ErrorComponent from './ErrorComponent';
+import { useChat } from 'ai/react';
+import DashboardComponents from './DashboardComponents';
+import SearchBar from './SearchBar';
+import _debounce from 'lodash/debounce';
 
-// Custom hook for fetching data
 const useFetch = (url, data) => {
   const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
@@ -21,13 +14,18 @@ const useFetch = (url, data) => {
 
   const fetchData = useCallback(async () => {
     setIsLoading(true);
+    const source = axios.CancelToken.source();
     try {
-      const res = await axios.post(url, data);
+      const res = await axios.post(url, data, { cancelToken: source.token });
       setResponse(res.data);
     } catch (error) {
-      setError(error);
+      if (!axios.isCancel(error)) {
+        setError(error);
+      }
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
+    return () => source.cancel();
   }, [url, data]);
 
   useEffect(() => {
@@ -38,13 +36,22 @@ const useFetch = (url, data) => {
 };
 
 const TeacherDashboard: React.FC = () => {
-  const { response: feedback, error, isLoading } = useFetch('/feedback', { student_answers: ["I love this class!", "This is too difficult."] });
-  const { messages, input, handleInputChange, handleSubmit } = useChat(); // from Vercel AI SDK
+  const [searchTerm, setSearchTerm] = useState('');
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+  const { response: feedback, error, isLoading } = useFetch('/feedback', {
+    student_answers: ["I love this class!", "This is too difficult."],
+  });
+  const { messages, input, handleInputChange, handleSubmit } = useChat();
+
+  const handleSearchChange = useCallback((event) => {
+    setSearchTerm(event.target.value);
+  }, []);
 
   return (
     <div>
       <h1>Teacher Dashboard</h1>
-      <Notifications /> {/* for notifications */}
+      <DashboardComponents.Notifications />
+      <SearchBar handleSearchChange={handleSearchChange} />
       {isLoading ? (
         <Spinner animation="border" role="status">
           <span className="sr-only">Loading...</span>
@@ -53,25 +60,22 @@ const TeacherDashboard: React.FC = () => {
         <ErrorComponent error={error} />
       ) : (
         <div>
-          <StudentManagement /> {/* for managing students */}
-          <CourseManagement /> {/* for managing courses */}
-          <AssignmentManagement /> {/* for managing assignments */}
-          <AttendanceTracking /> {/* for tracking attendance */}
-          <PerformanceTracking /> {/* for tracking performance */}
-          <CommunicationTools /> {/* for communication */}
-          <ResourceLibrary /> {/* for resources */}
-          <Calendar /> {/* for calendar and scheduling */}
+          {DashboardComponents.components.map((Component, index) => (
+            <Component key={index} searchTerm={debouncedSearchTerm} />
+          ))}
           {feedback.map((item, index) => (
             <p key={index}>{item}</p>
           ))}
-          {messages.map(m => ( // from Vercel AI SDK
+          {messages.map((m) => (
             <div key={m.id}>
               {m.role}: {m.content}
             </div>
           ))}
-          <form onSubmit={handleSubmit}> {/* from Vercel AI SDK */}
-            <input value={input} placeholder="Say something..." onChange={handleInputChange} /> {/* from Vercel AI SDK */}
-          </form>
+          <DashboardComponents.Form
+            input={input}
+            handleInputChange={handleInputChange}
+            handleSubmit={handleSubmit}
+          />
         </div>
       )}
     </div>
