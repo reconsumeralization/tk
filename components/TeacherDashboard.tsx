@@ -15,11 +15,12 @@ import Notifications from './Notifications'; // for notifications
 
 // Custom hook for fetching data
 const useFetch = <T, U>(url: T, data: U) => {
-  const [response, setResponse] = useState<any>(null);
-  const [error, setError] = useState<any>(null);
+  const [response, setResponse] = useState<U | null>(null);
+  const [error, setError] = useState<Error | null>(null);
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const fetchData = useCallback(async () => {
+  const fetchData = useCallback<() => Promise<void>>(async () => {
     setIsLoading(true);
     try {
       const res = await axios.post(url, data);
@@ -38,6 +39,7 @@ const useFetch = <T, U>(url: T, data: U) => {
 };
 
 const TeacherDashboard: React.FC = () => {
+const TeacherDashboard: React.FC<Props> = () => {
   const { response: feedback, error, isLoading } = useFetch('/feedback', { student_answers: ["I love this class!", "This is too difficult."] });
   const { messages, input, handleInputChange, handleSubmit } = useChat(); // from Vercel AI SDK
 
