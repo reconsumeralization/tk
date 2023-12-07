@@ -15,7 +15,7 @@ def change_password():
     if not user or not check_password_hash(user.password, data['old_password']):
         return jsonify({'message': 'Old password is incorrect'}), 401
 
-    hashed_password = generate_password_hash(data['new_password'], method='sha256')
+    hashed_password = generate_password_hash(data['new_password'])
     user.password = hashed_password
     db.session.commit()
 
@@ -25,12 +25,20 @@ def change_password():
 @jwt_required()
 def encrypt_data():
     data = request.get_json()
-    encrypted_data = {}  # Placeholder for the actual encryption logic
+
+    enc_key = "QKZEjJQaRvOSH3BdAH-QY4nvoo-WEZ8VUNMZvd5uh0I=".encode('utf-8')
+    fernet = Fernet(enc_key)
+    encrypted_data = {key: fernet.encrypt(value.encode('utf-8')).decode('utf-8') for key, value in data.items()}
+
     return jsonify(encrypted_data), 200
 
 @encryption.route('/decrypt_data', methods=['POST'])
 @jwt_required()
 def decrypt_data():
     data = request.get_json()
-    decrypted_data = {}  # Placeholder for the actual decryption logic
+
+    enc_key = "QKZEjJQaRvOSH3BdAH-QY4nvoo-WEZ8VUNMZvd5uh0I=".encode('utf-8')
+    fernet = Fernet(enc_key)
+    decrypted_data = {key: fernet.decrypt(value.encode('utf-8')).decode('utf-8') for key, value in data.items() if value}
+
     return jsonify(decrypted_data), 200
