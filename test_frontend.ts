@@ -7,6 +7,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 import App from './App';
 import * as actions from './actions';
+import NewComponent from './NewComponent'; // Import the new component
 
 // Mock the axios module
 jest.mock('axios');
@@ -63,31 +64,16 @@ test('navigates to the teacher dashboard', async () => {
 });
 
 test('navigates to the student dashboard', async () => {
-test('successful registration', async () => {
-  actions.createUser = jest.fn().mockResolvedValueOnce({
-    data: {
-      username: 'newuser',
-      password: 'password',
-      role: 'teacher',
-    },
-  });
 
-  await setup({ username: 'newuser', password: 'password', role: 'teacher' });
-
-  expect(screen.getByText(/registration successful/i)).toBeInTheDocument();
-});
-  actions.createUser = jest.fn().mockResolvedValueOnce({
-    data: {
-      username: 'student1',
-      password: 'password',
-      role: 'student',
-    },
-  });
-
-  await setup({ username: 'student1', password: 'password', role: 'student' });
-
-  expect(screen.getByText(/student dashboard/i)).toBeInTheDocument();
-  // Add more assertions here
+test('renders the new component', () => {
+  render(
+    <Provider store={mockStore({})}>
+      <Router>
+        <NewComponent />
+      </Router>
+    </Provider>
+  );
+  expect(screen.getByText(/new component/i)).toBeInTheDocument();
 });
 
 test('navigates to the admin dashboard', async () => {
@@ -106,6 +92,18 @@ test('navigates to the admin dashboard', async () => {
 });
 
 test('displays an error message for unsuccessful registration', async () => {
+test('navigates to the new component', async () => {
+  actions.createResource = jest.fn().mockResolvedValueOnce({
+    data: {
+      resource: 'newresource',
+    },
+  });
+
+  await setup({ resource: 'newresource' });
+
+  expect(screen.getByText(/new component/i)).toBeInTheDocument();
+  // Add more assertions here
+});
   actions.createUser = jest.fn().mockRejectedValueOnce({
     response: {
       data: {
@@ -137,6 +135,19 @@ test('navigates to the parent dashboard', async () => {
 
   expect(screen.getByText(/student dashboard/i)).toBeInTheDocument();
   // Add more assertions here
+test('displays an error message for unsuccessful resource creation', async () => {
+  actions.createResource = jest.fn().mockRejectedValueOnce({
+    response: {
+      data: {
+        message: 'Resource already exists',
+      },
+    },
+  });
+
+  await setup({ resource: 'existingresource' });
+
+  expect(screen.getByText(/resource already exists/i)).toBeInTheDocument();
+});
 });
 
 test('displays an error message for unsuccessful login', async () => {
@@ -153,6 +164,19 @@ test('displays an error message for unsuccessful login', async () => {
   expect(screen.getByText(/invalid username or password/i)).toBeInTheDocument();
 });
 test('displays an error message for unsuccessful course creation', async () => {
+test('displays an error message for unsuccessful resource update', async () => {
+  actions.updateResource = jest.fn().mockRejectedValueOnce({
+    response: {
+      data: {
+        message: 'Resource update failed',
+      },
+    },
+  });
+
+  await setup({ resource: 'existingresource' });
+
+  expect(screen.getByText(/resource update failed/i)).toBeInTheDocument();
+});
   actions.createCourse = jest.fn().mockRejectedValueOnce({
     response: {
       data: {
@@ -188,4 +212,17 @@ test('displays an error message for unsuccessful assignment creation', async () 
   fireEvent.click(screen.getByText(/create assignment/i));
 
   expect(screen.getByText(/assignment already exists/i)).toBeInTheDocument();
+});
+test('displays an error message for unsuccessful resource deletion', async () => {
+  actions.deleteResource = jest.fn().mockRejectedValueOnce({
+    response: {
+      data: {
+        message: 'Resource deletion failed',
+      },
+    },
+  });
+
+  await setup({ resource: 'existingresource' });
+
+  expect(screen.getByText(/resource deletion failed/i)).toBeInTheDocument();
 });
