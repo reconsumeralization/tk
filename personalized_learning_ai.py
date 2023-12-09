@@ -1,5 +1,6 @@
 from transformers import pipeline
 
+
 class PersonalizedLearningAI:
     def __init__(self):
         self.personalized_learning_ai = pipeline('text-classification')
