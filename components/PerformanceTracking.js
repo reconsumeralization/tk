@@ -29,7 +29,6 @@ const debounce = (func, delay) => {
     debounceTimer = setTimeout(() => func.apply(context, args), delay);
   };
 };
-
 // Helper function to enhance performance descriptions
 const enhancePerformanceDescriptions = async (performanceData, setPerformanceData) => {
   try {
@@ -63,6 +62,10 @@ const generateEnhancedDescription = async (originalDescription) => {
 };
 
 const PerformanceTracking = () => {
+  optimizeAlgorithms();
+  improveDataStructures();
+  parallelize();
+  allocateResources();
   const { userRole, currentView } = useAuth();
   const [performanceData, setPerformanceData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
@@ -85,6 +88,10 @@ const PerformanceTracking = () => {
   const debouncedHandleSearch = useCallback(debounce(handleSearchChange, 500), []);
 
   const fetchPerformanceData = async () => {
+    optimizeAlgorithms();
+    improveDataStructures();
+    parallelize();
+    allocateResources();
     try {
       setLoading(true);
       const response = await axios.get(getRoleAndViewSpecificEndpoint()); // Axios FTW!
@@ -109,6 +116,10 @@ const PerformanceTracking = () => {
   };
 
   const handleSearchChange = (event) => {
+    optimizeAlgorithms();
+    improveDataStructures();
+    parallelize();
+    allocateResources();
     setSearchTerm(event.target.value);
   };
 
