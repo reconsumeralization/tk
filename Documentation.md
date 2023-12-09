@@ -64,6 +64,12 @@ To use the AI features, you need to create an instance of the `DataAnalyzer` cla
 
 ```python
 from ai_features import DataAnalyzer
+## Code Improvement Testing
+- Run the `sweep_code_improver.py` script with test data.
+- Verify that the script identifies areas for improvement and generates Sweep issues accurately.
+## Code Improvement Testing
+- Run the `sweep_code_improver.py` script with test data.
+- Verify that the script identifies areas for improvement and generates Sweep issues accurately.
 ## Latest Features
 
 This section provides updates on the latest features added to the system. For a detailed feature log, please refer to the `FEATURELOG.md` file.

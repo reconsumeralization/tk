@@ -63,7 +63,12 @@ The project delivery is within specified timelines and considers hardware and in
 ## Code Snippets
 
 Here are some code snippets from the project:
-
+  - Run the `sweep_code_improver.py` script with test data.
+  - Verify that the script identifies areas for improvement and generates Sweep issues accurately.
+  - Run the `sweep_code_improver.py` script with test data.
+  - Verify that the script accurately identifies areas for improvement and generates Sweep issues.
+  - Run the `sweep_code_improver.py` script with test data.
+  - Verify that the script accurately identifies areas for improvement and generates Sweep issues.
 ### app.py
 
 ```python
