@@ -40,6 +40,11 @@ Comprehensive tests are conducted to ensure the quality of the software. Unit te
 3. End-to-end tests:
    - Execute `npm run e2e` in the repository root.
 
+
+4. Sweep code improvement script test:
+   - Run `python -m sweep_code_improver` with test data.
+   - Verify that the script identifies areas for improvement and generates Sweep issues accurately.
+
 The backend and frontend components are thoroughly tested with unit and integration tests.
 
 ## Documentation
@@ -59,6 +64,15 @@ Security is a paramount concern, and as such, the system employs JSON Web Tokens
 
 In upcoming iterations, we aim to incorporate state-of-the-art AI capabilities to enable predictive analytics, enhancing the decision-making process and driving student success. Additionally, mobile applications for both Android and iOS platforms are under development to extend accessibility and reach.
 
+## Code Improvement Script
+
+The `sweep_code_improver.py` script is an automated tool that analyzes the codebase to identify areas for improvement and suggest enhancements. It integrates with Sweep AI's capabilities to detect issues related to code quality, performance, and potential refactoring.
+
+To use the script:
+
+1. Run the script from the repository root with `python -m sweep_code_improver`.
+2. Review the output, which includes suggestions for code improvements.
+3. Apply the suggested changes to enhance the codebase according to best practices.
 
 ## Constraints
 
