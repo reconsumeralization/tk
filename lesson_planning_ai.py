@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-
-=======
->>>>>>> 8478cd0c6baded29a057b2e5cabb6540d1cb0952
 from transformers import pipeline
 
 class LessonPlanningAI:
