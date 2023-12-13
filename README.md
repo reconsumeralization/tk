@@ -43,7 +43,7 @@ Comprehensive tests are conducted to ensure the quality of the software. Unit te
 
 ## Code Improvement Script
 
-The `sweep_code_improver.py` script is an automated tool that analyzes the codebase to identify areas for improvement and suggest enhancements. It integrates with Sweep AI's capabilities to detect issues related to code quality, performance, and potential refactoring.
+The `sweep_issues_aggregator.py` script is an automated tool that analyzes the codebase to identify areas for improvement and suggest enhancements. It integrates with Sweep AI's capabilities to detect issues related to code quality, performance, and potential refactoring.
 
 To use the script:
 
@@ -101,7 +101,7 @@ In upcoming iterations, we aim to incorporate state-of-the-art AI capabilities t
 
 ## Code Improvement Script
 
-The `sweep_code_improver.py` script is an automated tool that analyzes the codebase to identify areas for improvement and suggest enhancements. It integrates with Sweep AI's capabilities to detect issues related to code quality, performance, and potential refactoring.
+The `sweep_issues_aggregator.py` script is an automated tool that analyzes the codebase to identify areas for improvement and suggest enhancements. It integrates with Sweep AI's capabilities to detect issues related to code quality, performance, and potential refactoring.
 
 To use the script:
 
