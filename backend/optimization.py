@@ -4,6 +4,7 @@ from components.PerformanceTracking import (ErrorComponent, PropTypes, axios,
                                             useCallback, useEffect, useState)
 from personalized_learning_ai import pipeline
 
+from backend.optimization_helper import optimize_algorithms
 optimize_algorithms()
 improve_data_structures()
 parallelize_code()
