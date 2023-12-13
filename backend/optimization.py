@@ -15,4 +15,4 @@ parallelize_code()
 allocate_resources()
 monitor_performance()
 
-# Use the Sweep AI configuration to measure and evaluate performance metrics, code quality score, resource utilization metrics, and scalability benchmarks
+import sweep_ai
