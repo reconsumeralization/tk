@@ -53,6 +53,35 @@ To use the script:
 
 The backend and frontend components are thoroughly tested with unit and integration tests.
 
+## Community Participation and Contribution
+
+To contribute to the project, follow the guidelines below:
+
+1. Clone the repository using `git clone repository_url`.
+2. Install the backend dependencies with `cd backend` and `pip install -r requirements.txt`.
+3. Install the frontend dependencies with `cd frontend` and `npm install`.
+4. Start the backend server with `python app.py` from the backend directory.
+5. Launch the frontend by running `npm start` from the frontend directory.
+
+Contribution Guidelines:
+
+- Familiarize yourself with the project by reviewing the codebase and documentation.
+- Create a new branch for your contribution: `git checkout -b feature-branch-name`.
+- Make your changes, ensuring adherence to the project's coding style and guidelines.
+- Write clear, concise commit messages for each significant change.
+- Push your branch to the repository and create a pull request for review.
+- Participate in discussions and code reviews to address feedback and improve your contribution.
+- Respect the intellectual property rights of others.
+- Uphold the project's code of conduct and facilitate a welcoming and inclusive environment.
+
+Enhancing the Project:
+
+- Report issues, propose new features, and provide constructive feedback.
+- Contribute to testing efforts to ensure the reliability and stability of the application.
+- Improve documentation, code comments, and tutorials to enhance the project's accessibility.
+
+For comprehensive documentation, refer to [Documentation.md](/Documentation.md). Our future development roadmap is detailed in [ROADMAP.md](/ROADMAP.md).
+
 ## Documentation
 
 
@@ -149,6 +178,7 @@ def create_user():
     data = request.get_json()
     new_user = User(username=data['username'], password=data['password'], role=data['role'])
     db.session.add(new_user)
+    db.session.commit()
     db.session.commit()
     return jsonify({'message': 'User created'}), 201
 
