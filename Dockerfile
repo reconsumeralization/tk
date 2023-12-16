@@ -1,7 +1,4 @@
-# Use an official Python runtime as a parent image with a specific tag
-FROM python:3.8.12-slim-buster as base
-
-# Set the working directory in the container
+FROM python:3.10-slim
 WORKDIR /app
 
 # Copy only the necessary files to the container

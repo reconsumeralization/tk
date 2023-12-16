@@ -15,6 +15,7 @@ def analyze_codebase():
     sweep_ai.analyze_code_quality()
     sweep_ai.analyze_performance()
     sweep_ai.analyze_refactoring()
+    sweep_issues_aggregator.aggregate_issues()
 
 def main():
     analyze_codebase()
