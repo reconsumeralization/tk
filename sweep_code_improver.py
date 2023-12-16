@@ -1,7 +1,9 @@
+from encryption import encryption
+from auth import auth
 # sweep_code_improver.py
 
-import auth
-import encryption
+from backend.optimization_helper import optimize_algorithms, improve_data_structures, parallelize_code, allocate_resources, monitor_performance
+import sweep_ai
 
 
 def analyze_codebase():
