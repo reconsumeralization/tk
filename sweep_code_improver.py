@@ -3,7 +3,7 @@ from auth import auth
 # sweep_code_improver.py
 
 from backend.optimization_helper import optimize_algorithms, improve_data_structures, parallelize_code, allocate_resources, monitor_performance
-import sweep_ai
+
 
 
 def analyze_codebase():
@@ -12,10 +12,10 @@ def analyze_codebase():
     encryption.analyze_security()
 
     # Utilize Sweep AI to identify areas for improvement and generate suggestions
-    sweep_ai.analyze_code_quality()
-    sweep_ai.analyze_performance()
-    sweep_ai.analyze_refactoring()
-    sweep_issues_aggregator.aggregate_issues()
+
+
+
+
 
 def main():
     analyze_codebase()
