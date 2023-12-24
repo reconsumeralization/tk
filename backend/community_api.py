@@ -1,5 +1,5 @@
 import flask
-from sqlalchemy import ...
+from flask import Flask, request, jsonify
 
 
 class CommunityForum:
@@ -36,6 +36,10 @@ class IssueTracker:
 
 class ContributionGuidelines:
     def get_guidelines(self):
+        return jsonify({
+            "contribution_guidelines": "Replace this with actual contribution guidelines"
+        })
+    def get_guidelines(self):
         def get_guidelines(self):
         # Implementation for retrieving contribution guidelines
         pass
@@ -55,6 +59,7 @@ class CommunityAPI:
         self.app.add_url_rule('/issues/<issue_id>/status', 'update_issue_status', self.update_issue_status, methods=['PUT'])
 
         # Define API endpoint for contribution guidelines
+        self.app.add_url_rule('/contribution-guidelines', 'get_guidelines', self.get_guidelines, methods=['GET'])
         self.app.add_url_rule('/contribution-guidelines', 'get_guidelines', self.get_guidelines, methods=['GET'])
     def __init__(self):
         self.app = flask.Flask(__name__)
