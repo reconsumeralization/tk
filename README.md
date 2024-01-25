@@ -65,18 +65,15 @@ To contribute to the project, follow the guidelines below:
 
 Contribution Guidelines:
 
-- Familiarize yourself with the project by reviewing the codebase and documentation.
-- Create a new branch for your contribution: `git checkout -b feature-branch-name`.
-- Make your changes, ensuring adherence to the project's coding style and guidelines.
-- Write clear, concise commit messages for each significant change.
-- Push your branch to the repository and create a pull request for review.
+Please follow the guidelines outlined in our [CONTRIBUTING.md](CONTRIBUTING.md) for detailed instructions on how to contribute to the project.
+- Make your changes and commit them with clear, descriptive messages, and follow the contribution process as outlined in [CONTRIBUTING.md](CONTRIBUTING.md).
 - Participate in discussions and code reviews to address feedback and improve your contribution.
 - Respect the intellectual property rights of others.
 - Uphold the project's code of conduct and facilitate a welcoming and inclusive environment.
 
 Enhancing the Project:
 
-- Report issues, propose new features, and provide constructive feedback.
+- Report issues, propose new features, and provide constructive feedback. Check out our issue templates for [reporting bugs](.github/ISSUE_TEMPLATE/bug_report.md) or [requesting features](.github/ISSUE_TEMPLATE/feature_request.md).
 - Contribute to testing efforts to ensure the reliability and stability of the application.
 - Improve documentation, code comments, and tutorials to enhance the project's accessibility.
 
@@ -118,13 +115,16 @@ Adherence to the project delivery timeline is critical, and we are cognizant of 
 
 ## Setup
 
-To set up the application locally for development or testing purposes, follow these steps:
+## Setting Up for Development
+To set up the application locally for development, follow these steps:
 
 1. Clone the repository using `git clone repository_url`.
 2. Install the backend dependencies with `cd backend` and `pip install -r requirements.txt`.
 3. Install the frontend dependencies with `cd frontend` and `npm install`.
 4. Start the backend server with `python app.py` from the backend directory.
 5. Launch the frontend by running `npm start` from the frontend directory.
+
+For more detailed setup instructions, refer to the [README.md](README.md) file.
 
 
 
