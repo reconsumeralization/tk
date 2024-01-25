@@ -9,6 +9,8 @@ This document provides a detailed overview of the TeacherStudentParentAdminAi sy
 - [API Endpoints](#api-endpoints)
 - [AI Module](#ai-module)
 - [Testing](#testing)
+- [Metrics Collection](#metrics-collection)
+- [CI/CD Integration](#ci-cd-integration)
 - [Deployment](#deployment)
 - [Security](#security)
 - [Latest Updates](#latest-updates)
@@ -37,9 +39,60 @@ The AI module, defined in `ai_module.py`, uses Hugging Face Transformers for nat
 
 ## Testing
 
+## Metrics Collection
+
+The Metrics Collection module, provided by the `MetricsCollector` class, allows for the collection of various metrics such as code quality, coverage, and performance. These metrics are vital for maintaining high code standards and identifying areas for improvement.
+
+To collect code quality metrics, instantiate the `MetricsCollector` class and use the `collect_code_quality_metrics` method, passing the path to the codebase as an argument:
+
+```python
+from metrics_collector import MetricsCollector
+
+# Create a MetricsCollector instance
+metrics_collector = MetricsCollector()
+
+# Collect code quality metrics
+code_quality_metrics = metrics_collector.collect_code_quality_metrics('path/to/codebase')
+# Output the collected metrics
+print(code_quality_metrics)
+```
+
+Similarly, to collect coverage and performance metrics, use the `collect_coverage_metrics` and `collect_performance_metrics` methods accordingly:
+
+```python
+# Collect coverage metrics
+coverage_metrics = metrics_collector.collect_coverage_metrics('path/to/codebase')
+# Output the collected coverage metrics
+print(coverage_metrics)
+
+# Collect performance metrics
+# Assume 'some_function' is the function to test, with its arguments
+performance_metrics = metrics_collector.collect_performance_metrics(some_function, arg1, arg2)
+# Output the collected performance metrics
+print(performance_metrics)
+```
+
 The system includes unit tests for server-side components and integration tests for API endpoints. These tests are defined in the `test_backend.py` file. The frontend tests include unit tests for React components and integration tests for frontend services, defined in the `test_frontend.ts` file.
 
 ## Deployment
+
+## CI/CD Integration
+
+The `CICDIntegration` class enables the automation of Sweep issue generation within the CI/CD pipeline. It facilitates setting up the environment, integrating the analysis with the pipeline, and tearing down the environment post-analysis.
+
+To automate the integration, instantiate the `CICDIntegration` class and call the `integrate_with_pipeline` method:
+
+```python
+from ci_cd_integration import CICDIntegration
+
+# Create a CICDIntegration instance
+integration = CICDIntegration()
+
+# Integrate the Sweep AI analysis with the CI/CD pipeline
+integration.integrate_with_pipeline()
+```
+
+Incorporating this step into your CI/CD pipeline ensures that each build triggers an analysis of the codebase, helping in the continuous improvement of code quality.
 
 The system is packaged using Docker for containerization and Kubernetes for orchestration. The Dockerfile and Kubernetes configuration are included in the project files.
 
