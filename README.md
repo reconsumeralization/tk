@@ -73,7 +73,7 @@ Please follow the guidelines outlined in our [CONTRIBUTING.md](CONTRIBUTING.md) 
 
 Enhancing the Project:
 
-- Report issues, propose new features, and provide constructive feedback. Check out our issue templates for [reporting bugs](.github/ISSUE_TEMPLATE/bug_report.md) or [requesting features](.github/ISSUE_TEMPLATE/feature_request.md).
+- Report issues using our [bug report template](.github/ISSUE_TEMPLATE/bug_report.md), propose new features using our [feature request template](.github/ISSUE_TEMPLATE/feature_request.md), and provide constructive feedback. Community feedback is critical to project success. Engage in discussions, contribute to pull requests and offer insight on existing issues and PRs.
 - Contribute to testing efforts to ensure the reliability and stability of the application.
 - Improve documentation, code comments, and tutorials to enhance the project's accessibility.
 
