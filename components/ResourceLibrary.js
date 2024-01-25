@@ -142,10 +142,8 @@ const ChatComponent = ({ onChatApiInitialized }) => {
     };
     const response = await fetch(endpoint, {
       method: 'POST',
-      body: JSON.stringify({ userMessage }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      body: JSON.stringify({ message: userMessage }),
+      headers: headers,
     });
     const data = await response.json();
     return data.aiResponse;
