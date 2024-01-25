@@ -55,6 +55,8 @@ The backend and frontend components are thoroughly tested with unit and integrat
 
 ## Community Participation and Contribution
 
+For detailed contribution guidelines, please refer to our [CONTRIBUTING.md](/CONTRIBUTING.md) file.
+
 To contribute to the project, follow the guidelines below:
 
 1. Clone the repository using `git clone repository_url`.
@@ -117,6 +119,14 @@ Adherence to the project delivery timeline is critical, and we are cognizant of 
 
 
 ## Setup
+
+## How to Report Bugs or Request Features
+
+To report a bug or request a new feature, please use the issue templates provided in the `.github/ISSUE_TEMPLATE/` directory. Bug reports should follow the [bug_report.md](/.github/ISSUE_TEMPLATE/bug_report.md) template and feature requests should follow the [feature_request.md](/.github/ISSUE_TEMPLATE/feature_request.md) template.
+
+## Pull Requests
+
+When submitting a pull request, please use the pull request template provided in the `.github/PULL_REQUEST_TEMPLATE.md` file. This will ensure that your contributions are consistent with our project requirements.
 
 To set up the application locally for development or testing purposes, follow these steps:
 
