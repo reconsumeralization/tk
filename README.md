@@ -35,6 +35,7 @@ Comprehensive tests are conducted to ensure the quality of the software. Unit te
 
 1. Backend tests:
    - Navigate to the backend directory and run `pytest`.
+   - Run security tests using `pytest TeachersAId/test_security.py`.
 2. Frontend tests:
    - Navigate to the frontend directory and run `npm test`.
 3. End-to-end tests:
