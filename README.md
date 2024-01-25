@@ -56,6 +56,10 @@ To use the scripts:
 
 The backend and frontend components are thoroughly tested with unit and integration tests.
 
+## License
+
+This project is open-source software licensed under the MIT License. For more details, see the [LICENSE](LICENSE) file.
+
 ## Community Participation and Contribution
 
 To contribute to the project, follow the guidelines below:
@@ -66,7 +70,7 @@ To contribute to the project, follow the guidelines below:
 4. Start the backend server with `python app.py` from the backend directory.
 5. Launch the frontend by running `npm start` from the frontend directory.
 
-Contribution Guidelines:
+For detailed contribution instructions, refer to the [CONTRIBUTING.md](CONTRIBUTING.md) file. Contribution Guidelines:
 
 - Familiarize yourself with the project by reviewing the codebase and documentation.
 - Create a new branch for your contribution: `git checkout -b feature-branch-name`.
@@ -84,6 +88,10 @@ Enhancing the Project:
 - Improve documentation, code comments, and tutorials to enhance the project's accessibility.
 
 For comprehensive documentation, refer to [Documentation.md](/Documentation.md). Our future development roadmap is detailed in [ROADMAP.md](/ROADMAP.md).
+
+## Code of Conduct
+
+We are committed to fostering a welcoming and supportive community. Please review the project's [Code of Conduct](CODE_OF_CONDUCT.md) for guidelines on how to engage in a positive and respectful manner.
 
 ## Documentation
 
