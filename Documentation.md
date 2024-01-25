@@ -48,6 +48,10 @@ The system is packaged using Docker for containerization and Kubernetes for orch
 The system implements a number of security measures to protect against unauthorized access and data breaches. Enhancements include the addition of rate limiting, input validation, and encryption of sensitive data, as specified in the `TeachersAId` file. JWT authentication and role-based authorization are also in place.
 
 The system uses JWT for secure user authentication and HTTPS for secure data transmission. These features are implemented in the `auth.py` and `encryption.py` files respectively.
+
+A new script `security_audit.py` has been introduced to automate the security auditing process. It checks the code and infrastructure for common vulnerabilities to enhance the security posture. The output of this script includes a detailed report of findings and recommended actions.
+
+The disaster recovery strategy is outlined in `disaster_recovery_plan.md`. It includes redundancy measures, data backup protocols, and failover procedures to ensure system resilience and high availability. Regular testing of the recovery processes is conducted to guarantee effective response to any incident.
 ## Latest Tests
 
 This section provides updates on the latest tests added to the system. For a detailed test log, please refer to the `TESTLOG.md` file.
