@@ -1,0 +1,26 @@
+import os
+import re
+
+def update_file_path(file_path):
+    return file_path.replace('lib64', 'lib')
+
+def verify_file_exists(file_path):
+    return os.path.exists(file_path)
+
+def find_and_replace_lib64_references(directory):
+    for root, dirs, files in os.walk(directory):
+        for file_name in files:
+            file_path = os.path.join(root, file_name)
+            with open(file_path, 'r') as file:
+                content = file.read()
+            new_content = re.sub(r'lib64/(python3\.10/site-packages/[^\'"]+)', lambda match: update_file_path(match.group(0)), content)
+            if content != new_content:
+                with open(file_path, 'w') as file:
+                    file.write(new_content)
+
+def main():
+    project_directory = 'path/to/project'
+    find_and_replace_lib64_references(project_directory)
+
+if __name__ == "__main__":
+    main()
