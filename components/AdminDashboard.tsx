@@ -7,28 +7,17 @@ const AdminDashboard: React.FC = () => {
     setAdminTasks((prevTasks) => [...prevTasks, task]);
   };
 
-  const fetchData = async (): Promise<string[]> => {
-    try {
-      const response = await fetch('https://api.example.com/data');
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      return [];
-    }
-  };
+  import { fetchData } from './DataFetchUtility';
 
-  const fetchAdminTasks = async (): Promise<void> => {
-    try {
-      const fetchedTasks = await fetchData();
-      setAdminTasks(fetchedTasks);
-    } catch (error) {
-      console.error('Error fetching admin tasks:', error);
-    }
-  };
+  import { fetchData } from './DataFetchUtility';
 
   useEffect(() => {
-    fetchAdminTasks();
+    fetchData('https://api.example.com/data').then(fetchedData => {
+      if (!fetchedData.error) {
+        setAdminTasks(fetchedData);
+      }
+      // Errors are now handled by the fetchData function itself
+    });
   }, []);
 
   return (
