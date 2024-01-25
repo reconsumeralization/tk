@@ -37,13 +37,15 @@ The AI module, defined in `ai_module.py`, uses Hugging Face Transformers for nat
 
 ## Testing
 
-The system includes unit tests for server-side components and integration tests for API endpoints. These tests are defined in the `test_backend.py` file. The frontend tests include unit tests for React components and integration tests for frontend services, defined in the `test_frontend.ts` file.
+The system includes unit tests for server-side components, integration tests for API endpoints, security audit tests, and code quality tests. These tests are respectively defined in the `test_backend.py`, `security_audit_tests.py`, and `code_quality_tests.py` files. The frontend tests include unit tests for React components and integration tests for frontend services, defined in the `test_frontend.ts` file.
 
 ## Deployment
 
 The system is packaged using Docker for containerization and Kubernetes for orchestration. The Dockerfile and Kubernetes configuration are included in the project files.
 
 ## Security
+
+The system implements a number of security measures to protect against unauthorized access and data breaches. Enhancements include the addition of rate limiting, input validation, and encryption of sensitive data, as specified in the `TeachersAId` file. JWT authentication and role-based authorization are also in place.
 
 The system uses JWT for secure user authentication and HTTPS for secure data transmission. These features are implemented in the `auth.py` and `encryption.py` files respectively.
 ## Latest Tests
@@ -52,6 +54,10 @@ This section provides updates on the latest tests added to the system. For a det
 ## Database Models
 
 The database models are defined in the `models.py` file. The models include User, Course, UserCourse (a relationship table), Assignment, Test, and Chat.
+
+## Disaster Recovery
+
+The system has a robust disaster recovery plan in place, as outlined in the `disaster_recovery_plan.yml` file. This includes backup strategies, data replication, and detailed failover processes to ensure system reliability and minimize downtime in case of disasters.
 
 ## Future Enhancements
 
