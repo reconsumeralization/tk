@@ -1,0 +1,50 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches: [ '*' ]
+  pull_request:
+    branches: [ '*' ]
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.10'
+
+    - name: Install backend dependencies
+      run: |
+        cd backend
+        pip install -r requirements.txt
+
+    - name: Install frontend dependencies
+      run: |
+        cd frontend
+        npm install
+
+    - name: Run backend tests
+      run: |
+        cd backend
+        python -m unittest discover
+
+    - name: Run frontend tests
+      run: |
+        cd frontend
+        npm test
+
+    - name: Report backend test coverage
+      run: |
+        cd backend
+        coverage run -m unittest discover
+        coverage report
+
+    - name: Report frontend test coverage
+      run: |
+        cd frontend
+        npm run coverage
