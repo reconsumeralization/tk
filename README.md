@@ -35,6 +35,7 @@ Comprehensive tests are conducted to ensure the quality of the software. Unit te
 
 1. Backend tests:
    - Navigate to the backend directory and run `pytest`.
+   - Run security tests using `pytest TeachersAId/test_security.py`.
 2. Frontend tests:
    - Navigate to the frontend directory and run `npm test`.
 3. End-to-end tests:
@@ -43,17 +44,21 @@ Comprehensive tests are conducted to ensure the quality of the software. Unit te
 
 ## Code Improvement Script
 
-The `sweep_issues_aggregator.py` script is an automated tool that analyzes the codebase to identify areas for improvement and suggest enhancements. It integrates with Sweep AI's capabilities to detect issues related to code quality, performance, and potential refactoring.
+The `sweep_issues_aggregator.py`, `security_audit_tests.py`, and `code_quality_tests.py` scripts are automated tools that analyze the codebase to identify areas for improvement, suggest enhancements, and ensure the security and quality of the code. They integrate with Sweep AI's capabilities to detect issues related to code quality, performance, security vulnerabilities, and potential refactoring.
 
-To use the script:
+To use the scripts:
 
-1. Run the script from the repository root with `python -m sweep_code_improver`.
-2. Review the output, which includes suggestions for code improvements.
-3. Apply the suggested changes to enhance the codebase according to best practices.
+1. Run the `sweep_issues_aggregator.py` script from the repository root with `python -m sweep_code_improver` to identify general code improvements.
+2. Execute the `security_audit_tests.py` script with `python -m tests.security_audit_tests` to perform security audits and penetration testing.
+3. Run the `code_quality_tests.py` script with `python -m tests.code_quality_tests` to analyze code quality using static analysis tools.
+4. Review the output from each script, which includes suggestions for code improvements and identified security vulnerabilities.
+5. Apply the suggested changes and address any vulnerabilities to enhance the codebase according to best practices and security standards.
 
 The backend and frontend components are thoroughly tested with unit and integration tests.
 
 ## Community Participation and Contribution
+
+For detailed contribution guidelines, please refer to our [CONTRIBUTING.md](/CONTRIBUTING.md) file.
 
 To contribute to the project, follow the guidelines below:
 
@@ -117,6 +122,14 @@ Adherence to the project delivery timeline is critical, and we are cognizant of 
 
 
 ## Setup
+
+## How to Report Bugs or Request Features
+
+To report a bug or request a new feature, please use the issue templates provided in the `.github/ISSUE_TEMPLATE/` directory. Bug reports should follow the [bug_report.md](/.github/ISSUE_TEMPLATE/bug_report.md) template and feature requests should follow the [feature_request.md](/.github/ISSUE_TEMPLATE/feature_request.md) template.
+
+## Pull Requests
+
+When submitting a pull request, please use the pull request template provided in the `.github/PULL_REQUEST_TEMPLATE.md` file. This will ensure that your contributions are consistent with our project requirements.
 
 To set up the application locally for development or testing purposes, follow these steps:
 

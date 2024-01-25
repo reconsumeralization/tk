@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import ErrorComponent from './ErrorComponent';
+import { fetchData } from './DataFetchUtility';
 
 const AssignmentManagement = () => {
   const [data, setData] = useState([]);
@@ -8,26 +9,18 @@ const AssignmentManagement = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('https://api.example.com/AssignmentManagement')
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error('Something went wrong ...');
-        }
-      })
-      .then(data => {
-        setData(data);
+    fetchData('https://api.example.com/AssignmentManagement').then(fetchedData => {
+      if (!fetchedData.error) {
+        setData(fetchedData);
         setLoading(false);
-      })
-      .catch(error => {
-        setError(error.toString());
-        setLoading(false);
-      });
+      } else {
+        setError(fetchedData.error);
+      }
+    });
   }, []);
 
   if (loading) return <p>Loading...</p>;
-  if (error) return <ErrorComponent errorMessage={error} />;
+  if (error) return <ErrorComponent />;
 
   return (
     <div>

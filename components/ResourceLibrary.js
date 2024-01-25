@@ -3,6 +3,7 @@ import ErrorComponent from './ErrorComponent';
 import { FaBookmark, FaChalkboardTeacher, FaThumbsUp } from 'react-icons/fa';
 import { useAuth } from './AuthContext';
 import { Chat as ChatUI } from 'your-chat-library'; // Replace with your actual chat library
+import aiConfig from '../config/aiConfig.json';
 
 const ResourceLibrary = () => {
   const { userRole } = useAuth();
@@ -132,12 +133,17 @@ const ChatComponent = ({ onChatApiInitialized }) => {
   };
 
   const fetchAiResponse = async (userMessage) => {
-    const response = await fetch('your-ai-api-endpoint', {
+    const endpoint = aiConfig.api_endpoint || 'your-default-ai-api-endpoint';
+    const headers = aiConfig.api_type === 'google' ? {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${aiConfig.api_key}`
+    } : {
+      'Content-Type': 'application/json'
+    };
+    const response = await fetch(endpoint, {
       method: 'POST',
-      body: JSON.stringify({ userMessage }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      body: JSON.stringify({ message: userMessage }),
+      headers: headers,
     });
     const data = await response.json();
     return data.aiResponse;
